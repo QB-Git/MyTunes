@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MyTunes.Models
+namespace MyTunes.Models.Genre
 {
     public class Genre
     {

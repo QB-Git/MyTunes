@@ -5,9 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using MyTunes.Models.Genre;
+using MyTunes.Models.Editeur;
 
-namespace TodoApi
+namespace MyTunes
 {
     public class Startup
     {
@@ -21,7 +22,9 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GenreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("GenreContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
+            services.AddDbContext<EditeurContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
             services.AddControllers();
         }

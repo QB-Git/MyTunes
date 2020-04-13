@@ -8,7 +8,7 @@
       "sslPort": 44320
     }
   },
-    "TestAPI": {
+    "MyTunes": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/Genres",
