@@ -42,6 +42,9 @@ namespace TestAPI.Controllers
             return genre;
         }
 
+        /*
+         * -------------Fonctionalité désactivé pour GENRE--------------------------
+         *
         // PUT: api/Genres/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -106,5 +109,7 @@ namespace TestAPI.Controllers
         {
             return _context.GENRE.Any(e => e.id_genre == id);
         }
+
+    */
     }
 }
