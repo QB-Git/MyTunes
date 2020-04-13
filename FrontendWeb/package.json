@@ -1,0 +1,12 @@
+{
+  "name": "mytunes-frontend_web",
+  "version": "1.0.0",
+  "description": "La partie frontend web du projet MyTunes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Quentin Beaupuy",
+  "license": "ISC",
+  "dependencies": {}
+}
