@@ -6,6 +6,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MyTunes.Models.Genre;
 using MyTunes.Models.Editeur;
+using MyTunes.Models.Artiste;
+using MyTunes.Models.Pochette;
+using MyTunes.Models.User;
 
 namespace MyTunes
 {
@@ -20,9 +23,15 @@ namespace MyTunes
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<GenreContext>(options =>
+            services.AddDbContext<ArtisteContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
             services.AddDbContext<EditeurContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
+            services.AddDbContext<GenreContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
+            services.AddDbContext<PochetteContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
+            services.AddDbContext<UserContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
             services.AddControllers();
