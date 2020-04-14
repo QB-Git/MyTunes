@@ -6,7 +6,9 @@ namespace MyTunes.Models.User
     {
         [Key]
         public int id_user { get; set; }
+        [Required]
         public string pseudo { get; set; }
+        [Required]
         public string password { get; set; }
     }
 }
