@@ -1,64 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-    <link rel="stylesheet/less" type="text/css" href="styles.less" />
-    <title>Document</title>
-</head>
-<body>
-    <div class="music-player">
-        <div class="cover-art-box">
-            <div class="no-art-placeholder"><i class="icon ion-ios-musical-notes"></i></div>
-            <div class="cover-art"></div>
-        </div>
-        <div class="media-info">
-            <div class="media-title">Upload a song...</div>
-            <div class="media-artist"></div>
-        </div>
-        <div class="progress-bar-box">
-            <div class="media-time">
-                <div class="current"></div>
-                <div class="end"></div>
-            </div>
-            <input type="range" min="1" max="100" value="50" class="progress-bar" id="myRange">
-        </div>
-        <div class="media-options">
-            <div class="button sm pulse-button"><i class="icon ion-ios-pulse"></i></div>
-            <div class="button sm prev-button"><i class="icon ion-ios-skip-backward"></i></div>
-            <div class="button play-button"><i class="icon ion-ios-play"></i></div>
-            <div class="button sm next-button"><i class="icon ion-ios-skip-forward"></i></div>
-            <div class="button sm repeat-button"><i class="icon ion-ios-repeat"></i></div>
-        </div>
-        <div class="media-visualizer">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-    </div>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="node_modules/amplitudejs/dist/amplitude.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <title></title>
+  </head>
+  <body>
 
-    <div class="file-picker-box">
-        <i class="icon ion-ios-cloud-upload"></i>
-        <input type="file" accept="audio/*" class="audio-picker" />
-    </div>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.0/jsmediatags.js" integrity="sha256-j6y0xjM8ul3l0lp/rnayNHS2Im+Xaqip0iOrr+uijus=" crossorigin="anonymous"></script>
-    <script src="index.js"></script>
-</body>
+  </body>
 </html>

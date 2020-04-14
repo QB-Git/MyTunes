@@ -8,5 +8,8 @@
   },
   "author": "Quentin Beaupuy",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "amplitudejs": "^5.0.3",
+    "jquery": "^3.5.0"
+  }
 }
