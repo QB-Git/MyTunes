@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyTunes.Models.User
+namespace MyTunes.Models
 {
     public class User
     {

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTunes.Models;
@@ -9,48 +11,48 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EditeursController : ControllerBase
+    public class AlbumsController : ControllerBase
     {
-        private readonly EditeurContext _context;
+        private readonly AlbumContext _context;
 
-        public EditeursController(EditeurContext context)
+        public AlbumsController(AlbumContext context)
         {
             _context = context;
         }
 
-        // GET: api/Editeurs
+        // GET: api/Albums
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Editeur>>> GetEDITEUR()
+        public async Task<ActionResult<IEnumerable<Album>>> GetALBUM()
         {
-            return await _context.EDITEUR.ToListAsync();
+            return await _context.ALBUM.ToListAsync();
         }
 
-        // GET: api/Editeurs/5
+        // GET: api/Albums/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Editeur>> GetEditeur(int id)
+        public async Task<ActionResult<Album>> GetAlbum(int id)
         {
-            var editeur = await _context.EDITEUR.FindAsync(id);
+            var album = await _context.ALBUM.FindAsync(id);
 
-            if (editeur == null)
+            if (album == null)
             {
                 return NotFound();
             }
 
-            return editeur;
+            return album;
         }
 
-        // PUT: api/Editeurs/5
+        // PUT: api/Albums/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEditeur(int id, Editeur editeur)
+        public async Task<IActionResult> PutAlbum(int id, Album album)
         {
-            if (id != editeur.id_editeur)
+            if (id != album.id_album)
             {
                 return BadRequest();
             }
 
-            _context.Entry(editeur).State = EntityState.Modified;
+            _context.Entry(album).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +60,7 @@ namespace MyTunes.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EditeurExists(id))
+                if (!AlbumExists(id))
                 {
                     return NotFound();
                 }
@@ -71,37 +73,37 @@ namespace MyTunes.Controllers
             return NoContent();
         }
 
-        // POST: api/Editeurs
+        // POST: api/Albums
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Editeur>> PostEditeur(Editeur editeur)
+        public async Task<ActionResult<Album>> PostAlbum(Album album)
         {
-            _context.EDITEUR.Add(editeur);
+            _context.ALBUM.Add(album);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEditeur", new { id = editeur.id_editeur }, editeur);
+            return CreatedAtAction("GetAlbum", new { id = album.id_album }, album);
         }
 
-        // DELETE: api/Editeurs/5
+        // DELETE: api/Albums/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Editeur>> DeleteEditeur(int id)
+        public async Task<ActionResult<Album>> DeleteAlbum(int id)
         {
-            var editeur = await _context.EDITEUR.FindAsync(id);
-            if (editeur == null)
+            var album = await _context.ALBUM.FindAsync(id);
+            if (album == null)
             {
                 return NotFound();
             }
 
-            _context.EDITEUR.Remove(editeur);
+            _context.ALBUM.Remove(album);
             await _context.SaveChangesAsync();
 
-            return editeur;
+            return album;
         }
 
-        private bool EditeurExists(int id)
+        private bool AlbumExists(int id)
         {
-            return _context.EDITEUR.Any(e => e.id_editeur == id);
+            return _context.ALBUM.Any(e => e.id_album == id);
         }
     }
 }

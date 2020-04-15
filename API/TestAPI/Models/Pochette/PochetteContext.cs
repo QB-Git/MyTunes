@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyTunes.Models.Pochette
+namespace MyTunes.Models
 {
     public class PochetteContext : DbContext
     {

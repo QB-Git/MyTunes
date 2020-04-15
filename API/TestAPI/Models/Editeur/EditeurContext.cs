@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyTunes.Models.Editeur
+namespace MyTunes.Models
 {
     public class EditeurContext : DbContext
     {

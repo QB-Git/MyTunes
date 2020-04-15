@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyTunes.Models.Editeur
+namespace MyTunes.Models
 {
     public class Editeur
     {

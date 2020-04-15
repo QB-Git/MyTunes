@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyTunes.Models.Artiste
+namespace MyTunes.Models
 {
     public class ArtisteContext : DbContext
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyTunes.Models.Genre
+namespace MyTunes.Models
 {
     public class GenreContext : DbContext
     {

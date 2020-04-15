@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyTunes.Models.Genre;
+using MyTunes.Models;
 
 namespace MyTunes.Controllers
 {

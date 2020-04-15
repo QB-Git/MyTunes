@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyTunes.Models.Pochette
+namespace MyTunes.Models
 {
     public class Pochette
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyTunes.Models.User
+namespace MyTunes.Models
 {
     public class UserContext : DbContext
     {
