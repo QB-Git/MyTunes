@@ -10,9 +10,9 @@ namespace MyTunes.Controllers
     [ApiController]
     public class GenresController : ControllerBase
     {
-        private readonly GenreContext _context;
+        private readonly MyTunesContext _context;
 
-        public GenresController(GenreContext context)
+        public GenresController(MyTunesContext context)
         {
             _context = context;
         }

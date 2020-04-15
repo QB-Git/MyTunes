@@ -11,9 +11,9 @@ namespace MyTunes.Controllers
     [ApiController]
     public class EditeursController : ControllerBase
     {
-        private readonly EditeurContext _context;
+        private readonly MyTunesContext _context;
 
-        public EditeursController(EditeurContext context)
+        public EditeursController(MyTunesContext context)
         {
             _context = context;
         }

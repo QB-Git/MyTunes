@@ -13,9 +13,9 @@ namespace MyTunes.Controllers
     [ApiController]
     public class MusiquesController : ControllerBase
     {
-        private readonly MusiqueContext _context;
+        private readonly MyTunesContext _context;
 
-        public MusiquesController(MusiqueContext context)
+        public MusiquesController(MyTunesContext context)
         {
             _context = context;
         }

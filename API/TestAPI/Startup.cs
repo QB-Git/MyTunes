@@ -19,19 +19,7 @@ namespace MyTunes
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AlbumContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<ArtisteContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<EditeurContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<GenreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<MusiqueContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<PochetteContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            services.AddDbContext<UserContext>(options =>
+            services.AddDbContext<MyTunesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
             services.AddControllers();

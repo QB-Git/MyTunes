@@ -11,9 +11,9 @@ namespace MyTunes.Controllers
     [ApiController]
     public class PochettesController : ControllerBase
     {
-        private readonly PochetteContext _context;
+        private readonly MyTunesContext _context;
 
-        public PochettesController(PochetteContext context)
+        public PochettesController(MyTunesContext context)
         {
             _context = context;
         }
