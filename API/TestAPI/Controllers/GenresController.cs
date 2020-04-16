@@ -8,13 +8,10 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenresController : ControllerBase
+    public class GenresController : PatternnControllers
     {
-        private readonly MyTunesContext _context;
-
-        public GenresController(MyTunesContext context)
+        public GenresController(MyTunesContext context) : base(context)
         {
-            _context = context;
         }
 
         // GET: api/Genres

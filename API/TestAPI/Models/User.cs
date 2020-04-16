@@ -10,5 +10,6 @@ namespace MyTunes.Models
         public string pseudo { get; set; }
         [Required]
         public string password { get; set; }
+        public string token { get; set; }
     }
 }

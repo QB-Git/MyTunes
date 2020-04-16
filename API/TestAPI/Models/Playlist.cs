@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyTunes.Models
 {
-    public class Playlist
-    {
-        [Key]
+    public class Playlist { 
         public int id_user { get; set; }
-        [Key]
         public int id_musique { get; set; }
         public string nom { get; set; }
+        public Boolean publique { get; set; }
     }
 }

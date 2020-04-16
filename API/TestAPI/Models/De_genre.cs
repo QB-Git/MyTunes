@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyTunes.Models
 {
     public class De_genre
     {
-        [Key]
         public int id_musique { get; set; }
-        [Key]
         public int id_genre { get; set; }
     }
 }

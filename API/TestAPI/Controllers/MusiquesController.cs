@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,10 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MusiquesController : ControllerBase
+    public class MusiquesController : PatternnControllers
     {
-        private readonly MyTunesContext _context;
-
-        public MusiquesController(MyTunesContext context)
+        public MusiquesController(MyTunesContext context) :base(context)
         {
-            _context = context;
         }
 
         // GET: api/Musiques
@@ -81,27 +79,6 @@ namespace MyTunes.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMusique", new { id = musique.id_musique }, musique);
-        }
-
-        // DELETE: api/Musiques/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Musique>> DeleteMusique(int id)
-        {
-            var musique = await _context.MUSIQUE.FindAsync(id);
-            if (musique == null)
-            {
-                return NotFound();
-            }
-
-            _context.MUSIQUE.Remove(musique);
-            await _context.SaveChangesAsync();
-
-            return musique;
-        }
-
-        private bool MusiqueExists(int id)
-        {
-            return _context.MUSIQUE.Any(e => e.id_musique == id);
         }
     }
 }

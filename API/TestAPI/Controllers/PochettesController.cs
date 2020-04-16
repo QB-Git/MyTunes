@@ -9,13 +9,10 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PochettesController : ControllerBase
+    public class PochettesController : PatternnControllers
     {
-        private readonly MyTunesContext _context;
-
-        public PochettesController(MyTunesContext context)
+        public PochettesController(MyTunesContext context) :base(context)
         {
-            _context = context;
         }
 
         // GET: api/Pochettes
@@ -81,27 +78,6 @@ namespace MyTunes.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPochette", new { id = pochette.id_pochette }, pochette);
-        }
-
-        // DELETE: api/Pochettes/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Pochette>> DeletePochette(int id)
-        {
-            var pochette = await _context.POCHETTE.FindAsync(id);
-            if (pochette == null)
-            {
-                return NotFound();
-            }
-
-            _context.POCHETTE.Remove(pochette);
-            await _context.SaveChangesAsync();
-
-            return pochette;
-        }
-
-        private bool PochetteExists(int id)
-        {
-            return _context.POCHETTE.Any(e => e.id_pochette == id);
         }
     }
 }

@@ -9,13 +9,10 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : PatternnControllers
     {
-        private readonly MyTunesContext _context;
-
-        public UsersController(MyTunesContext context)
+        public UsersController(MyTunesContext context) :base(context)
         {
-            _context = context;
         }
 
         // GET: api/Users
@@ -40,14 +37,17 @@ namespace MyTunes.Controllers
         }
 
         // PUT: api/Users/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id,[FromBody] User user, 
+            [FromHeader] string pseudo, [FromHeader] string passwd, [FromHeader] string token)
         {
+            if(!UserAdmin(pseudo, passwd, token))
+            {
+                return BadRequest(new Erreur("Ce n'est pas un admin"));
+            }
             if (id != user.id_user)
             {
-                return BadRequest();
+                return BadRequest(new Erreur("On ne peut pas modifier un id"));
             }
 
             _context.Entry(user).State = EntityState.Modified;
@@ -75,8 +75,9 @@ namespace MyTunes.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser([FromBody] User user)
         {
+            //Faire en sorte que c'est le client ou l'API qui génère le token
             _context.USER.Add(user);
             await _context.SaveChangesAsync();
 
@@ -85,8 +86,13 @@ namespace MyTunes.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<User>> DeleteUser(int id,
+            [FromHeader] string pseudo, [FromHeader] string passwd, [FromHeader] string token)
         {
+            if (!UserAdmin(pseudo, passwd, token))
+            {
+                return BadRequest(new Erreur("Ce n'est pas un admin"));
+            }
             var user = await _context.USER.FindAsync(id);
             if (user == null)
             {
@@ -97,11 +103,6 @@ namespace MyTunes.Controllers
             await _context.SaveChangesAsync();
 
             return user;
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.USER.Any(e => e.id_user == id);
         }
     }
 }

@@ -21,5 +21,15 @@ namespace MyTunes.Models
         public DbSet<Playlist> PLAYLIST { get; set; }
         public DbSet<Pochette> POCHETTE { get; set; }
         public DbSet<User> USER { get; set; }
+
+        //On ne peut utiliser les Annontations pour les tables avec plusieurs clés primaires, on doit le faire en Fluent API (comme ça)
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<A_fait>().HasKey(table => new { table.id_artiste, table.id_musique });
+            builder.Entity<Appartient_a>().HasKey(table => new { table.id_musique, table.id_album });
+            builder.Entity<De_genre>().HasKey(table => new { table.id_musique, table.id_genre });
+            builder.Entity<Note>().HasKey(table => new { table.id_user, table.id_musique });
+            builder.Entity<Playlist>().HasKey(table => new { table.id_user, table.id_musique });
+        }
     }
 }
