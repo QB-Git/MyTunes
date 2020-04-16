@@ -2,19 +2,16 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyTunes.Models.Genre;
+using MyTunes.Models;
 
 namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenresController : ControllerBase
+    public class GenresController : PatternnControllers
     {
-        private readonly GenreContext _context;
-
-        public GenresController(GenreContext context)
+        public GenresController(MyTunesContext context) : base(context)
         {
-            _context = context;
         }
 
         // GET: api/Genres
