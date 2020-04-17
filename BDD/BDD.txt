@@ -1,0 +1,270 @@
+//ATTENTION, IL FAUT FAIRE ATTENTION QUE LA BDD [mytunes] EXISTE DEJA, SI VOUS AVEZ DEJA EXECUTE LE CODE, MERCI DE METTRE LES DROP TABLE
+
+USE [mytunes]
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+//drop table [dbo].[USER];
+//drop table [dbo].[ARTISTE];
+//drop table [dbo].[EDITEUR];
+//drop table [dbo].[GENRE];
+//drop table [dbo].[POCHETTE];
+//drop table [dbo].[MUSIQUE];
+//drop table [dbo].[ALBUM];
+//drop table [dbo].[A_FAIT];
+//drop table [dbo].[APPARTIENT_A];
+//drop table [dbo].[DE_GENRE];
+//drop table [dbo].[NOTE];
+//drop table [dbo].[PLAYLIST];
+//GO
+
+CREATE TABLE [dbo].[USER] (
+    [id_user]  INT            NOT NULL,
+    [pseudo]   NVARCHAR (255) NOT NULL,
+    [password] NVARCHAR (255) NOT NULL,
+    [token]    NVARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([id_user] ASC)
+);
+
+CREATE TABLE [dbo].[ARTISTE] (
+    [id_artiste] INT            NOT NULL,
+    [prenom]     NVARCHAR (255) NULL,
+    [nom]        NVARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([id_artiste] ASC)
+);
+
+CREATE TABLE [dbo].[EDITEUR] (
+    [id_editeur]  INT            NOT NULL,
+    [nom_editeur] NVARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_editeur] ASC)
+);
+
+CREATE TABLE [dbo].[GENRE] (
+    [id_genre] INT            NOT NULL,
+    [genre]    NVARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_genre] ASC)
+);
+
+CREATE TABLE [dbo].[POCHETTE] (
+    [id_pochette]  INT            NOT NULL,
+    [img_pochette] NVARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_pochette] ASC)
+);
+
+CREATE TABLE [dbo].[MUSIQUE] (
+    [id_musique]  INT            NOT NULL,
+    [url]         NVARCHAR (255) NOT NULL,
+    [titre]       NVARCHAR (255) NOT NULL,
+    [langue]      NVARCHAR (255) NULL,
+    [id_pochette] INT            NULL,
+    [date]        DATETIME       NULL,
+    [id_editeur]  INT            NULL,
+    PRIMARY KEY CLUSTERED ([id_musique] ASC),
+    FOREIGN KEY ([id_pochette]) REFERENCES [dbo].[POCHETTE] ([id_pochette]),
+    FOREIGN KEY ([id_editeur]) REFERENCES [dbo].[EDITEUR] ([id_editeur])
+);
+
+CREATE TABLE [dbo].[A_FAIT] (
+    [id_artiste] INT NOT NULL,
+    [id_musique] INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_artiste] ASC, [id_musique] ASC),
+    FOREIGN KEY ([id_artiste]) REFERENCES [dbo].[ARTISTE] ([id_artiste]),
+    FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
+);
+
+CREATE TABLE [dbo].[ALBUM] (
+    [id_album]    INT            NOT NULL,
+    [nom_album]   NVARCHAR (255) NOT NULL,
+    [id_pochette] INT            NULL,
+    PRIMARY KEY CLUSTERED ([id_album] ASC),
+    FOREIGN KEY ([id_pochette]) REFERENCES [dbo].[POCHETTE] ([id_pochette])
+);
+
+CREATE TABLE [dbo].[APPARTIENT_A] (
+    [id_musique] INT NOT NULL,
+    [id_album]   INT NOT NULL,
+    [num_piste]  INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_musique] ASC, [id_album] ASC),
+    FOREIGN KEY ([id_album]) REFERENCES [dbo].[ALBUM] ([id_album]),
+    FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
+);
+
+CREATE TABLE [dbo].[DE_GENRE] (
+    [id_musique] INT NOT NULL,
+    [id_genre]   INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([id_musique] ASC, [id_genre] ASC),
+    FOREIGN KEY ([id_genre]) REFERENCES [dbo].[GENRE] ([id_genre]),
+    FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
+);
+
+CREATE TABLE [dbo].[NOTE] (
+    [id_user]    INT NOT NULL,
+    [id_musique] INT NOT NULL,
+    [note]       INT NULL,
+    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC),
+    FOREIGN KEY ([id_user]) REFERENCES [dbo].[USER] ([id_user]),
+    FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
+);
+
+CREATE TABLE [dbo].[PLAYLIST] (
+    [id_user]    INT            NOT NULL,
+    [id_musique] INT            NOT NULL,
+    [nom]        NVARCHAR (255) NULL,
+    [publique]   BIT            NULL,
+    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC),
+    FOREIGN KEY ([id_user]) REFERENCES [dbo].[USER] ([id_user]),
+    FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
+);
+
+GO
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (1, N'Blues')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (2, N'ClassicRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (3, N'Country')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (4, N'Dance')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (5, N'Disco')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (6, N'Funk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (7, N'Grunge')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (8, N'Hip-Hop')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (9, N'Jazz')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (10, N'Metal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (11, N'NewAge')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (12, N'Oldies')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (13, N'Other')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (14, N'Pop')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (15, N'R&B')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (16, N'Rap')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (17, N'Reggae')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (18, N'Rock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (19, N'Techno')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (20, N'Industrial')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (21, N'Alternative')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (22, N'Ska')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (23, N'DeathMetal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (24, N'Pranks')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (25, N'Soundtrack')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (26, N'Euro-Techno')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (27, N'Ambient')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (28, N'Trip-Hop')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (29, N'Vocal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (30, N'Jazz+Funk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (31, N'Fusion')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (32, N'Trance')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (33, N'Classical')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (34, N'Instrumental')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (35, N'Acid')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (36, N'House')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (37, N'Game')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (38, N'SoundClip')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (39, N'Gospel')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (40, N'Noise')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (41, N'Alt.Rock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (42, N'Bass')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (43, N'Soul')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (44, N'Punk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (45, N'Space')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (46, N'Meditative')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (47, N'InstrumentalPop')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (48, N'InstrumentalRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (49, N'Ethnic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (50, N'Gothic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (51, N'Darkwave')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (52, N'Techno-Industrial')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (53, N'Electronic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (54, N'Pop-Folk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (55, N'Eurodance')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (56, N'Dream')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (57, N'SouthernRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (58, N'Comedy')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (59, N'Cult')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (60, N'GangstaRap')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (61, N'Top')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (62, N'ChristianRap')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (63, N'Pop/Funk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (64, N'Jungle')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (65, N'NativeAmerican')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (66, N'Cabaret')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (67, N'NewWave')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (68, N'Psychedelic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (69, N'Rave')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (70, N'Showtunes')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (71, N'Trailer')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (72, N'Lo-Fi')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (73, N'Tribal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (74, N'AcidPunk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (75, N'AcidJazz')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (76, N'Polka')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (77, N'Retro')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (78, N'Musical')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (79, N'Rock&Roll')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (80, N'HardRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (81, N'Folk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (82, N'Folk/Rock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (83, N'NationalFolk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (84, N'Swing')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (85, N'Fast-Fusion')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (86, N'Bebob')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (87, N'Latin')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (88, N'Revival')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (89, N'Celtic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (90, N'Bluegrass')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (91, N'Avantgarde')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (92, N'GothicRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (93, N'ProgressiveRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (94, N'PsychedelicRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (95, N'SymphonicRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (96, N'SlowRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (97, N'BigBand')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (98, N'Chorus')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (99, N'EasyListening')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (100, N'Acoustic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (101, N'Humour')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (102, N'Speech')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (103, N'Chanson')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (104, N'Opera')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (105, N'ChamberMusic')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (106, N'Sonata')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (107, N'Symphony')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (108, N'BootyBass')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (109, N'Primus')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (110, N'PornGroove')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (111, N'Satire')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (112, N'SlowJam')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (113, N'Club')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (114, N'Tango')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (115, N'Samba')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (116, N'Folklore')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (117, N'Ballad')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (118, N'PowerBallad')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (119, N'RhythmicSoul')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (120, N'Freestyle')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (121, N'Duet')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (122, N'PunkRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (123, N'DrumSolo')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (124, N'ACappella')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (125, N'Euro-House')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (126, N'DanceHall')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (127, N'Goa')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (128, N'Drum&Bass')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (129, N'Club-House')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (130, N'Hardcore')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (131, N'Terror')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (132, N'Indie')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (133, N'BritPop')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (134, N'Negerpunk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (135, N'PolskPunk')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (136, N'Beat')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (137, N'ChristianGangstaRap')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (138, N'HeavyMetal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (139, N'BlackMetal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (140, N'Crossover')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (141, N'ContemporaryChristian')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (142, N'ChristianRock')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (143, N'Merengue')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (144, N'Salsa')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (145, N'ThrashMetal')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (146, N'Anime')
+INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (147, N'JPop')
+GO
