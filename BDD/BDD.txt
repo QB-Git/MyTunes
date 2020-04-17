@@ -1,4 +1,4 @@
-//ATTENTION, IL FAUT FAIRE ATTENTION QUE LA BDD [mytunes] EXISTE DEJA, SI VOUS AVEZ DEJA EXECUTE LE CODE, MERCI DE METTRE LES DROP TABLE
+/*ATTENTION, IL FAUT FAIRE ATTENTION QUE LA BDD [mytunes] EXISTE DEJA, SI VOUS AVEZ DEJA EXECUTE LE CODE, MERCI DE METTRE LES DROP TABLE*/
 
 USE [mytunes]
 GO
@@ -7,19 +7,19 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-//drop table [dbo].[USER];
-//drop table [dbo].[ARTISTE];
-//drop table [dbo].[EDITEUR];
-//drop table [dbo].[GENRE];
-//drop table [dbo].[POCHETTE];
-//drop table [dbo].[MUSIQUE];
-//drop table [dbo].[ALBUM];
-//drop table [dbo].[A_FAIT];
-//drop table [dbo].[APPARTIENT_A];
-//drop table [dbo].[DE_GENRE];
-//drop table [dbo].[NOTE];
-//drop table [dbo].[PLAYLIST];
-//GO
+/*drop table [dbo].[USER];
+drop table [dbo].[ARTISTE];
+drop table [dbo].[EDITEUR];
+drop table [dbo].[GENRE];
+drop table [dbo].[POCHETTE];
+drop table [dbo].[MUSIQUE];
+drop table [dbo].[ALBUM];
+drop table [dbo].[A_FAIT];
+drop table [dbo].[APPARTIENT_A];
+drop table [dbo].[DE_GENRE];
+drop table [dbo].[NOTE];
+drop table [dbo].[PLAYLIST];
+GO*/
 
 CREATE TABLE [dbo].[USER] (
     [id_user]  INT            NOT NULL,
