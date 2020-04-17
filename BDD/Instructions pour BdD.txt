@@ -1,6 +1,0 @@
-Aller dans le dossier 
-C:\Users\[user]\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB
-où [user] est votre nom de user ....
-
-glisser dedans "mytunes.mdf" et "mytunes.ldf"
-Vous aurez juste à lancer l'API sous visual studio pour l'instant (avec le framework d'installer).
