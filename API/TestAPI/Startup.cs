@@ -23,6 +23,24 @@ namespace MyTunes
                 options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
             services.AddControllers();
+
+            // Register the Swagger services
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "MyTunes";
+                    document.Info.Description = "ITunes mais sans licence ou moyens financiers";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Beaupuy Brangbour Nolin",
+                        Email = string.Empty,
+                        Url = "https://youtu.be/dQw4w9WgXcQ"
+                    };
+                };
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +60,11 @@ namespace MyTunes
             {
                 endpoints.MapControllers();
             });
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            //http://localhost:5000/swagger
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }
