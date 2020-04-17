@@ -29,13 +29,12 @@ namespace MyTunes
             {
                 config.PostProcess = document =>
                 {
-                    document.Info.Version = "v1";
+                    document.Info.Version = "V2";
                     document.Info.Title = "MyTunes";
-                    document.Info.Description = "ITunes mais sans licence ou moyens financiers";
-                    document.Info.TermsOfService = "None";
+                    document.Info.Description = "ITunes mais sans licence ou moyen financier";
                     document.Info.Contact = new NSwag.OpenApiContact
                     {
-                        Name = "Beaupuy Brangbour Nolin",
+                        Name = "Beaupuy / Brangbour / Nolin",
                         Email = string.Empty,
                         Url = "https://youtu.be/dQw4w9WgXcQ"
                     };

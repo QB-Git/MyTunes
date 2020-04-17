@@ -9,7 +9,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : PatternnControllers
+    public class UsersController : GeneralControllers
     {
         public UsersController(MyTunesContext context) :base(context)
         {

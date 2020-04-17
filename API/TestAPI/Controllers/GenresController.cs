@@ -8,7 +8,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenresController : PatternnControllers
+    public class GenresController : GeneralControllers
     {
         public GenresController(MyTunesContext context) : base(context)
         {
