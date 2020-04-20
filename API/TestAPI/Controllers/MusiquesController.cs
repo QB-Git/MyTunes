@@ -10,7 +10,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MusiquesController : PatternnControllers
+    public class MusiquesController : GeneralControllers
     {
         public MusiquesController(MyTunesContext context) :base(context)
         {

@@ -8,11 +8,11 @@ using MyTunes.Models;
 
 namespace MyTunes.Controllers
 {
-    public class PatternnControllers : ControllerBase
+    public class GeneralControllers : ControllerBase
     {
         protected readonly MyTunesContext _context;
 
-        protected PatternnControllers(MyTunesContext context)
+        protected GeneralControllers(MyTunesContext context)
         {
             this._context = context;
         }

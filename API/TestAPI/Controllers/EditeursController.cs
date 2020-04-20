@@ -9,7 +9,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EditeursController : PatternnControllers
+    public class EditeursController : GeneralControllers
     {
         public EditeursController(MyTunesContext context) :base(context)
         {

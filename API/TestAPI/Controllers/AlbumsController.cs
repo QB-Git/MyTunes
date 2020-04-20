@@ -9,7 +9,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumsController : PatternnControllers
+    public class AlbumsController : GeneralControllers
     {
         public AlbumsController(MyTunesContext context) : base(context)
         {

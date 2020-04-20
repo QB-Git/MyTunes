@@ -9,7 +9,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PochettesController : PatternnControllers
+    public class PochettesController : GeneralControllers
     {
         public PochettesController(MyTunesContext context) :base(context)
         {

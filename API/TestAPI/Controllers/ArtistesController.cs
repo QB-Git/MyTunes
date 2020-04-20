@@ -9,7 +9,7 @@ namespace MyTunes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistesController : PatternnControllers
+    public class ArtistesController : GeneralControllers
     {
         public ArtistesController(MyTunesContext context) : base(context)
         {
