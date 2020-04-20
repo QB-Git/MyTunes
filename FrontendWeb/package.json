@@ -13,6 +13,7 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "mdbootstrap": "^4.16.0",
+    "mustache": "^4.0.1",
     "overlayscrollbars": "^1.12.0"
   }
 }
