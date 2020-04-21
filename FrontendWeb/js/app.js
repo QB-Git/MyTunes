@@ -8,12 +8,6 @@ function getPage(page, nbFois = 1, idBalise = "#contentPage") {
 }
 
 $(() => {
-  //getPage("b.html");
-
-  // $('#sidebarCollapse').on('click', function () {
-  //     $('#sidebar').toggleClass('active');
-  // });
-
   $('body').overlayScrollbars({ });
   $('.aaa').overlayScrollbars({ });
   // Amplitude.init({

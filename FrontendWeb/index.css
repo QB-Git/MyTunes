@@ -12,7 +12,7 @@ body {
   cursor: pointer;
 }
 
-.sidebar-header > svg path {
+.sidebar-header svg path {
   fill: coral;
 }
 
@@ -94,7 +94,7 @@ i, span {
 }
 
 #sidebar > a > span:nth-child(1){
-    font-size: 1.8em;
+    font-size: 2em;
 }
 #sidebar > a > span:nth-child(2){
     font-size: 1em;
@@ -128,4 +128,13 @@ i, span {
     #svgtest {
         padding: 4px;
     }
+}
+
+.control-icon {
+    font-size: 2em;
+    margin: 5px;
+}
+
+.control-icon path {
+    fill: cornflowerblue;
 }
