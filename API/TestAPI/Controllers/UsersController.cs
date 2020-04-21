@@ -83,16 +83,17 @@ namespace MyTunes.Controllers
         }
 
         // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<User>> PostUser([FromBody] User user)
         {
             //Faire en sorte que c'est le client ou l'API qui génère le token
-            _context.USER.Add(user);
+            var changement = user;
+            changement.playlists = null;
+            changement.notes = null;
+            _context.USER.Add(changement);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.id_user }, user);
+            return CreatedAtAction("GetUser", new { id = changement.id_user }, changement);
         }
 
         // DELETE: api/Users/5
@@ -114,6 +115,92 @@ namespace MyTunes.Controllers
             await _context.SaveChangesAsync();
 
             return user;
+        }
+
+        // POST : api/Users/playlists/1?nom="nom"&publique=bool
+        // Ajoute une musique à la playlist nommé si elle n'existe pas la créer, sinon met en favoris par défaut
+        [HttpPost("playlist/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylist(int id, 
+            [FromBody] IEnumerable<int> musiques, 
+            [FromHeader] string nom = "Favoris", [FromHeader] System.Boolean publique = true)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            foreach (var musique in musiques)
+            {
+                if (!MusiqueExists(musique))
+                {
+                    return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
+                }
+            }
+
+            foreach (var musique in musiques)
+            {
+                if (!PlaylistExists(id, nom, musique))
+                {
+                    Playlist playlist = new Playlist()
+                    {
+                        id_user = id,
+                        id_musique = musique,
+                        nom = nom,
+                        publique = publique
+                    };
+                    _context.PLAYLIST.Add(playlist);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // POST : api/Users/notes/1?note=note&musique="id_musique"
+        // Ajoute une note à la musique voulu
+        [HttpPost("notes/{id}")]
+        public async Task<ActionResult<User>> PostUserNotes(int id, 
+            [FromHeader] int note, [FromHeader] int musique)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            if (!MusiqueExists(musique))
+            {
+                return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
+            }
+            if(note > 5 || note < 0)
+            {
+                return BadRequest(new Erreur("La note doit être compris entre 0 et 5 inclus"));
+            }
+
+            Note nt = new Note()
+             {
+                id_user = id,
+                id_musique = musique,
+                note = note
+             };
+             _context.NOTE.Add(nt);
+  
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
         }
     }
 }

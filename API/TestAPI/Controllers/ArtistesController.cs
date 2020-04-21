@@ -38,7 +38,7 @@ namespace MyTunes.Controllers
 
             if (artiste == null)
             {
-                return NotFound();
+                return NotFound(new Erreur("Artiste numéro: " + id + " inexistant"));
             }
 
             return artiste;
@@ -50,10 +50,49 @@ namespace MyTunes.Controllers
         [HttpPost]
         public async Task<ActionResult<Artiste>> PostArtiste(Artiste artiste)
         {
-            _context.ARTISTE.Add(artiste);
+            var changement = artiste;
+            changement.musiques = null;
+            _context.ARTISTE.Add(changement);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetArtiste", new { id = artiste.id_artiste }, artiste);
+            return CreatedAtAction("GetArtiste", new { id = changement.id_artiste }, changement);
+        }
+
+        // POST : api/Artistes/a_fait/1
+        // Ajout une liste de musique à l'album 1
+        [HttpPost("a_fait/{id}")]
+        public async Task<ActionResult<Artiste>> PostAlbumPistes(int id, [FromBody] IEnumerable<int> musiques)
+        {
+            if (!ArtisteExists(id))
+            {
+                return NotFound(new Erreur("Artiste numéro: " + id + " inexistant"));
+            }
+            foreach (var musique in musiques)
+            {
+                if (!MusiqueExists(musique))
+                {
+                    return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
+                }
+            }
+
+            foreach (var musique in musiques)
+            {
+                A_fait fait = new A_fait()
+                {
+                    id_artiste = id,
+                    id_musique = musique,
+                };
+                _context.A_FAIT.Add(fait);
+            }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.ARTISTE
+                .Include(a => a.musiques)
+                    .ThenInclude(b => b.Musique)
+                .Where(c => c.id_artiste == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
         }
     }
 }

@@ -57,5 +57,10 @@ namespace MyTunes.Controllers
         {
             return _context.USER.Any(e => e.id_user == id);
         }
+
+        protected bool PlaylistExists(int id_user, string nom, int id_musique)
+        {
+            return _context.PLAYLIST.Any(e => e.id_user == id_user && e.nom == nom && e.id_musique == id_musique);
+        }
     }
 }
