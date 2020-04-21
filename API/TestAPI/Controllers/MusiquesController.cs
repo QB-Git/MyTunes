@@ -20,14 +20,41 @@ namespace MyTunes.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE()
         {
-            return await _context.MUSIQUE.ToListAsync();
+            return await _context.MUSIQUE
+                .Include(a => a.pochette)
+                .Include(b => b.editeur)
+                .Include(c => c.artistes)
+                    .ThenInclude(d => d.Artiste)
+                .Include(e => e.genres)
+                    .ThenInclude(f => f.Genre)
+                .Include(g => g.albums)
+                    .ThenInclude(h => h.Album)
+                .Include(i => i.notes)
+                    //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
+                    .ThenInclude(l => l.User)*/
+                .ToListAsync();
         }
 
         // GET: api/Musiques/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Musique>> GetMusique(int id)
         {
-            var musique = await _context.MUSIQUE.FindAsync(id);
+            var musique = await _context.MUSIQUE
+                .Include(a => a.pochette)
+                .Include(b => b.editeur)
+                .Include(c => c.artistes)
+                    .ThenInclude(d => d.Artiste)
+                .Include(e => e.genres)
+                    .ThenInclude(f => f.Genre)
+                .Include(g => g.albums)
+                    .ThenInclude(h => h.Album)
+                .Include(i => i.notes)
+                //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
+                    .ThenInclude(l => l.User)*/
+                .Where(m => m.id_musique == id)
+                .FirstOrDefaultAsync();
 
             if (musique == null)
             {

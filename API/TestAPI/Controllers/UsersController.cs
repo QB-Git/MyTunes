@@ -19,14 +19,25 @@ namespace MyTunes.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUSER()
         {
-            return await _context.USER.ToListAsync();
+            return await _context.USER
+                .Include(a => a.notes)
+                    //.ThenInclude(b => b.Musique) Pas besoin
+                .Include(c => c.playlists)    
+                    //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.USER.FindAsync(id);
+            var user = await _context.USER
+                .Include(a => a.notes)
+                    //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                    //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
 
             if (user == null)
             {

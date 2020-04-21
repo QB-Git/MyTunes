@@ -22,8 +22,12 @@ namespace MyTunes
             services.AddDbContext<MyTunesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
-            services.AddControllers();
+            //permet le Eager Loading sans erreur : le Json pensent qu'il y a un cycle alors que non
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
+            services.AddControllers();
             // Register the Swagger services
             services.AddSwaggerDocument(config =>
             {
