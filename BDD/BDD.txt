@@ -112,9 +112,9 @@ CREATE TABLE [dbo].[NOTE] (
 CREATE TABLE [dbo].[PLAYLIST] (
     [id_user]    INT            NOT NULL,
     [id_musique] INT            NOT NULL,
-    [nom]        NVARCHAR (255) NULL,
+    [nom]        NVARCHAR (255) NOT NULL,
     [publique]   BIT            NULL,
-    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC),
+    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC, [nom] ASC),
     FOREIGN KEY ([id_user]) REFERENCES [dbo].[USER] ([id_user]),
     FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
 );
