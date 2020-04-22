@@ -16,11 +16,11 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Musiques
+        // GET: api/Musiques?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE()
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE([FromHeader] string recherche)
         {
-            return Ok(await _context.MUSIQUE
+            var musiques = await _context.MUSIQUE
                 .Include(a => a.pochette)
                 .Include(b => b.editeur)
                 .Include(c => c.artistes)
@@ -33,7 +33,14 @@ namespace MyTunes.Controllers
                     //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
                 /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
                     .ThenInclude(l => l.User)*/
-                .ToListAsync());
+                .ToListAsync();
+
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(musiques.Where(s => s.titre.Contains(recherche)));
+            }
+
+            return Ok(musiques);
         }
 
         // GET: api/Musiques/5
@@ -58,10 +65,34 @@ namespace MyTunes.Controllers
 
             if (musique == null)
             {
-                return NotFound();
+                return NotFound(new Erreur("Musique numéro: "+id+"inexistante"));
             }
 
             return Ok(musique);
+        }
+
+        // GET: api/Musiques/moyenne/5
+        [HttpGet("moyenne/{id}")]
+        public async Task<ActionResult<int>> GetMoyMusique(int id)
+        {
+            var musique = await _context.MUSIQUE
+                .Include(i => i.notes)
+                .Where(m => m.id_musique == id)
+                .FirstOrDefaultAsync();
+
+            if (musique == null)
+            {
+                return NotFound(new Erreur("Musique numéro: " + id + "inexistante"));
+            }
+
+            var nombre = musique.notes.Count();
+            double total = 0;
+            foreach(var note in musique.notes)
+            {
+                total += note.note;
+            }
+
+            return Ok(total /= nombre);
         }
 
         // PUT: api/Musiques/5

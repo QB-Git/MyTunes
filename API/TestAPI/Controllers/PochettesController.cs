@@ -19,7 +19,7 @@ namespace MyTunes.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pochette>>> GetPOCHETTE()
         {
-            return await _context.POCHETTE.ToListAsync();
+            return Ok(await _context.POCHETTE.ToListAsync());
         }
 
         // GET: api/Pochettes/5

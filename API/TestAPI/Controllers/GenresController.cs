@@ -15,14 +15,21 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Genres
+        // GET: api/Genres?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Genre>>> GetGENRE()
+        public async Task<ActionResult<IEnumerable<Genre>>> GetGENRE([FromHeader] string recherche)
         {
-            return await _context.GENRE
+            var genres =  await _context.GENRE
                 .Include(a => a.musiques)
                     .ThenInclude(b => b.Musique)
                 .ToListAsync();
+
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(genres.Where(s => s.genre.Contains(recherche)));
+            }
+
+            return Ok(genres);
         }
 
         // GET: api/Genres/5

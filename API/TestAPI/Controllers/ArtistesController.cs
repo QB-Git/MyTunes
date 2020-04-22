@@ -16,14 +16,20 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Artistes
+        // GET: api/Artistes?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artiste>>> GetARTISTE()
+        public async Task<ActionResult<IEnumerable<Artiste>>> GetARTISTE([FromHeader] string recherche)
         {
-            return await _context.ARTISTE
+            var artistes =  await _context.ARTISTE
                 .Include(a => a.musiques)
                     .ThenInclude(b => b.Musique)
                 .ToListAsync();
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(artistes.Where(s => s.nom.Contains(recherche) || s.prenom.Contains(recherche)));
+            }
+
+            return Ok(artistes);
         }
 
         // GET: api/Artistes/5

@@ -15,15 +15,21 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Albums
+        // GET: api/Albums?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Album>>> GetALBUM()
+        public async Task<ActionResult<IEnumerable<Album>>> GetALBUM([FromHeader] string recherche)
         {
-            return await _context.ALBUM
+            var albums = await _context.ALBUM
                 .Include(a => a.musiques)
                     .ThenInclude(b => b.Musique)
                 .Include(c => c.pochette)
                 .ToListAsync();
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(albums.Where(s => s.nom_album.Contains(recherche)));
+            }
+
+            return Ok(albums);
         }
 
         // GET: api/Albums/5
