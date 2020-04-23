@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mytunes-1586508987573",
+  "private_key_id": "7526701db35af11ae3d7617e99bbf3f22fa27385",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDP0LoQ7/ZodYiD\nyc1/Owi4ECsefkvJns2ejFTOWgh0nhIp6iMRzkY9NUb5dq1bYHo6LjdiivPQ456b\nU0tmjjGEgU1bV1wzeNYDuc4Cr8FK+apH4/h6Din+qY95+4WOGjQBJQ1fkngkaRdp\nsH5dKmNM0jfPGfa/15WjqPJYA1/FjmwauesCgd8QfRE1t0gBZPg5o/FzNdm/6npi\nI9zwIowuL25lowBkPUL+002I6TWrsm24k5y48kuro1Ney5uNU2oIs//229FbOqOZ\n+86pJhEqWkNGQv6ERLc6PKFQ9pZuSkL4uBJZat1wJkGUeJZmbw6njufciVXx/Bz5\nwQqV/v/PAgMBAAECggEAX+XXfwpk4HZgTUR6Jly1HM8lPriUO5GjHCdw2Rp17W6m\nPh5UGZrhEcy8mFC6FcEzFhcOqtQpR/tJzS6GTGiQlC9g5aYuH3iC9gwvc1Dsdy83\n813RY22W1nQjh+xYCKex2Ndi0PgTpeWzDqwJ2+88DI6zf0fhdEzFOlUzpAbGkrBd\n7slpkIHj5TC7KVVxKDyydjKQJ9qguDJtuD5yS8kLa74HicowwhbZXfwvs1xo46du\n0dbSMbNdqoShdES5udjx9V3vRgfjjmo+kEQiJ3iE5VBjTeG0r8hwRURXTr8AOeSU\nQCnOsUm8KprsLyV+gszSl6KiRx4c04z8lJvkbr8bIQKBgQDqPhb0y5T+AG6wP4/b\n8JC8bn9g4dL1GkhPN56Zr7hsYVm1ucm7ciPmlxRmKAXAVfgmFxeZnJ+A9VY7HcX4\nN8dsHwTVM0cy7c10vLK4Nk9Puuf9S2ZClZEGLyoT9yMPIrpEKmJvhosJwuc5gA0q\nDz0vJl3pm/WMWDc4uSe84/DmLwKBgQDjHj2tGX5Cs1WwOwphDSb7CJxNVglTSOuZ\nIdwLa1qpTCXCSfik44rxh1ptkoAahMBxRp3eBX43y8/so6/+jj5MXxXAiK4qS3eL\nVtXvnFdDNCw1U8GjKgkfitytNkm5aIfyvuTfOWojvlG2DvZk/quS74il5cva9OH6\n66mEhpq4YQKBgHQeY3LmmO1xeW2VlNMK5jUC8dItIE6wwLfEcrLtERdpCvezKfXq\nFzHwIwShQnieJW18dQ6JPejHtf+IOuNZg1pt5g9qZBkzGW6NPGtlQNvdY7OE9SR8\n0G+oYcuT76VJKd0wxatTnwkvvUAb4mq/My10b4mm7oqsEHPmFXTl6j2xAoGANDGd\n8Orb5k46Uf6vevA/1g77hJZSHE60vgNXA1TPh/qU7tp7BsG4C5uUf3vcbru1UhLt\ncrmGcSIojXRsnK5pyLlNUWrXw6aGOYJiNeeS8kHKKxMte+bMI/CQmEnSlYZdP774\n8AfMyZwSQSmdHEaefW0I1T9DIvWF/VktIuSgJ+ECgYAHBgrGtbyFpRl/aqSOkooc\nXzGqyY1A9xn8NRryTMN8S+r7WSpS8dLhRBbSf4+iNh9ruz4WnTBk+TE0mMZVDSTg\nLNN4g6VuXYIHUg5EZ1Xp1EP1Kf9YikFwnuKXEw0/wNMBsWq0dCBDlMKXJ9LTcPt6\nWZbgvWIe+Lz+NSD0IsPSug==\n-----END PRIVATE KEY-----\n",
+  "client_email": "mytunes-service@mytunes-1586508987573.iam.gserviceaccount.com",
+  "client_id": "107033049790371860091",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mytunes-service%40mytunes-1586508987573.iam.gserviceaccount.com"
+}

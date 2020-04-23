@@ -1,0 +1,8 @@
+@import "withCards.css";
+
+.filter-option-inner-inner::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0a4";
+    padding-right: 5px;
+}
