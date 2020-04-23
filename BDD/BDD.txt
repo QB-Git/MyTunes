@@ -112,9 +112,9 @@ CREATE TABLE [dbo].[NOTE] (
 CREATE TABLE [dbo].[PLAYLIST] (
     [id_user]    INT            NOT NULL,
     [id_musique] INT            NOT NULL,
-    [nom]        NVARCHAR (255) NULL,
+    [nom]        NVARCHAR (255) NOT NULL,
     [publique]   BIT            NULL,
-    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC),
+    PRIMARY KEY CLUSTERED ([id_user] ASC, [id_musique] ASC, [nom] ASC),
     FOREIGN KEY ([id_user]) REFERENCES [dbo].[USER] ([id_user]),
     FOREIGN KEY ([id_musique]) REFERENCES [dbo].[MUSIQUE] ([id_musique])
 );
@@ -267,4 +267,35 @@ INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (144, N'Salsa')
 INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (145, N'ThrashMetal')
 INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (146, N'Anime')
 INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (147, N'JPop')
+
+INSERT INTO [dbo].[ALBUM] ([id_album], [nom_album], [id_pochette]) VALUES (1, N'les classiques', 1)
+
+INSERT INTO [dbo].[USER] ([id_user], [pseudo], [password], [token]) VALUES (1, N'JackyDu45', N'1234', NULL)
+INSERT INTO [dbo].[USER] ([id_user], [pseudo], [password], [token]) VALUES (2, N'Richard', N'azerty', NULL)
+
+INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (1, N'jesaispasou')
+
+INSERT INTO [dbo].[ARTISTE] ([id_artiste], [prenom], [nom]) VALUES (1, N'André', N'Rieu')
+INSERT INTO [dbo].[ARTISTE] ([id_artiste], [prenom], [nom]) VALUES (2, N'marc', N'jean')
+INSERT INTO [dbo].[ARTISTE] ([id_artiste], [prenom], [nom]) VALUES (3, N'jaen', N'jhon')
+
+INSERT INTO [dbo].[EDITEUR] ([id_editeur], [nom_editeur]) VALUES (1, N'universal')
+INSERT INTO [dbo].[EDITEUR] ([id_editeur], [nom_editeur]) VALUES (2, N'Disney')
+
+INSERT INTO [dbo].[MUSIQUE] ([id_musique], [url], [titre], [langue], [id_pochette], [date], [id_editeur]) VALUES (1, N'jecépasou', N'Winter', N'Allemand', 1, N'2020-04-15 00:00:00', 1)
+
+INSERT INTO [dbo].[A_FAIT] ([id_artiste], [id_musique]) VALUES (1, 1)
+INSERT INTO [dbo].[A_FAIT] ([id_artiste], [id_musique]) VALUES (2, 1)
+
+INSERT INTO [dbo].[APPARTIENT_A] ([id_musique], [id_album], [num_piste]) VALUES (1, 1, 1)
+
+INSERT INTO [dbo].[DE_GENRE] ([id_musique], [id_genre]) VALUES (1, 42)
+
+INSERT INTO [dbo].[NOTE] ([id_user], [id_musique], [note]) VALUES (1, 1, 3)
+INSERT INTO [dbo].[NOTE] ([id_user], [id_musique], [note]) VALUES (2, 1, 4)
+
+INSERT INTO [dbo].[PLAYLIST] ([id_user], [id_musique], [nom], [publique]) VALUES (1, 1, N'Ecoute', 1)
+INSERT INTO [dbo].[PLAYLIST] ([id_user], [id_musique], [nom], [publique]) VALUES (1, 1, N'Favoris', 0)
+
+
 GO

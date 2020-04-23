@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyTunes.Models
 {
@@ -12,8 +14,16 @@ namespace MyTunes.Models
         [Required]
         public string titre { get; set; }
         public string langue { get; set; }
-        public int id_pochette { get; set; }
+        [ForeignKey("id_pochette")]
+        public Pochette pochette { get; set; }
         public DateTime date { get; set; }
-        public int id_editeur { get; set; }
+        [ForeignKey("id_editeur")]
+        public Editeur editeur { get; set; }
+        public virtual IEnumerable<De_genre> genres { get; set; }
+        public virtual IEnumerable<A_fait> artistes { get; set; }
+        public virtual IEnumerable<Appartient_a> albums { get; set; }
+        //public virtual IEnumerable<Playlist> playlists { get; set; } pas besoin
+        public virtual IEnumerable<Note> notes { get; set; }
+
     }
 }

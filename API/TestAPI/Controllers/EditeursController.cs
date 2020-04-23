@@ -15,11 +15,17 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Editeurs
+        // GET: api/Editeurs?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Editeur>>> GetEDITEUR()
+        public async Task<ActionResult<IEnumerable<Editeur>>> GetEDITEUR([FromHeader] string recherche)
         {
-            return await _context.EDITEUR.ToListAsync();
+            var editeurs = await _context.EDITEUR.ToListAsync();
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(editeurs.Where(s => s.nom_editeur.Contains(recherche)));
+            }
+
+            return Ok(editeurs);
         }
 
         // GET: api/Editeurs/5
@@ -37,8 +43,6 @@ namespace MyTunes.Controllers
         }
 
         // POST: api/Editeurs
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Editeur>> PostEditeur(Editeur editeur)
         {

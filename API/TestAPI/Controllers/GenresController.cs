@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +15,32 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Genres
+        // GET: api/Genres?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Genre>>> GetGENRE()
+        public async Task<ActionResult<IEnumerable<Genre>>> GetGENRE([FromHeader] string recherche)
         {
-            return await _context.GENRE.ToListAsync();
+            var genres =  await _context.GENRE
+                .Include(a => a.musiques)
+                    .ThenInclude(b => b.Musique)
+                .ToListAsync();
+
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(genres.Where(s => s.genre.Contains(recherche)));
+            }
+
+            return Ok(genres);
         }
 
         // GET: api/Genres/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Genre>> GetGenre(int id)
         {
-            var genre = await _context.GENRE.FindAsync(id);
+            var genre = await _context.GENRE
+                .Include(a => a.musiques)
+                    .ThenInclude(b => b.Musique)
+                .Where(c => c.id_genre == id)
+                .FirstOrDefaultAsync();
 
             if (genre == null)
             {

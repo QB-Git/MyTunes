@@ -15,18 +15,36 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Users
+        // GET: api/Users?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUSER()
+        public async Task<ActionResult<IEnumerable<User>>> GetUSER([FromHeader] string recherche)
         {
-            return await _context.USER.ToListAsync();
+            var users = await _context.USER
+                .Include(a => a.notes)
+                    //.ThenInclude(b => b.Musique) Pas besoin
+                .Include(c => c.playlists)    
+                    //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .ToListAsync();
+
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                return Ok(users.Where(s => s.pseudo.Contains(recherche)));
+            }
+
+            return Ok(users);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.USER.FindAsync(id);
+            var user = await _context.USER
+                .Include(a => a.notes)
+                    //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                    //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -72,16 +90,17 @@ namespace MyTunes.Controllers
         }
 
         // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<User>> PostUser([FromBody] User user)
         {
             //Faire en sorte que c'est le client ou l'API qui génère le token
-            _context.USER.Add(user);
+            var changement = user;
+            changement.playlists = null;
+            changement.notes = null;
+            _context.USER.Add(changement);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.id_user }, user);
+            return CreatedAtAction("GetUser", new { id = changement.id_user }, changement);
         }
 
         // DELETE: api/Users/5
@@ -103,6 +122,307 @@ namespace MyTunes.Controllers
             await _context.SaveChangesAsync();
 
             return user;
+        }
+
+        // POST : api/Users/playlists/1?nom="nom"&publique=bool
+        // Ajoute une musique à la playlist nommé si elle n'existe pas la créer, sinon met en favoris par défaut
+        [HttpPost("playlist/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylist(int id, 
+            [FromBody] IEnumerable<int> musiques, 
+            [FromHeader] string nom = "Favoris", [FromHeader] System.Boolean publique = false)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            foreach (var musique in musiques)
+            {
+                if (!MusiqueExists(musique))
+                {
+                    return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
+                }
+            }
+
+            foreach (var musique in musiques)
+            {
+                if (!PlaylistExists(id, nom, musique))
+                {
+                    Playlist playlist = new Playlist()
+                    {
+                        id_user = id,
+                        id_musique = musique,
+                        nom = nom,
+                        publique = publique
+                    };
+                    _context.PLAYLIST.Add(playlist);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // POST : api/Users/notes/1?note=note&musique="id_musique"
+        // Ajoute une note à la musique voulu
+        [HttpPost("notes/{id}")]
+        public async Task<ActionResult<User>> PostUserNotes(int id, 
+            [FromHeader] int note, [FromHeader] int musique)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            if (!MusiqueExists(musique))
+            {
+                return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
+            }
+            if(note > 5 || note < 0)
+            {
+                return BadRequest(new Erreur("La note doit être compris entre 0 et 5 inclus"));
+            }
+
+            Note nt = new Note()
+             {
+                id_user = id,
+                id_musique = musique,
+                note = note
+             };
+             _context.NOTE.Add(nt);
+  
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // PUT: api/Users/playlist/5?musique=id&nom="nom_playlist"
+        [HttpPut("playlist/{id}")]
+        public async Task<ActionResult<User>> PutUserPlaylist(int id,
+            [FromHeader] int musique, [FromHeader] string nom_playlist)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro : "+id+" introuvable"));
+            }
+
+            var playlist = await _context.PLAYLIST
+                .Where(a => a.id_musique == musique && a.id_user==id && a.nom == nom_playlist)
+                .FirstOrDefaultAsync();
+            if (playlist == null)
+            {
+                return NotFound(new Erreur("musique numéro : " + musique 
+                    + " dans la playlist nommé : "
+                    +nom_playlist+" de l'utilisateur numéro: "
+                    +id+", introuvable"));
+            }
+
+            _context.PLAYLIST.Remove(playlist);
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // DELETE: api/Users/playlist/5?nom="nom_playlist"
+        [HttpDelete("playlist/{id}")]
+        public async Task<ActionResult<User>> DeleteUserPlaylist(int id, [FromHeader] string nom_playlist)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro : " + id + " introuvable"));
+            }
+
+            var playlists = await _context.PLAYLIST
+                .Where(a => a.id_user == id && a.nom == nom_playlist)
+                .ToListAsync();
+            if (playlists == null)
+            {
+                return NotFound(new Erreur("Playlist nommé : "
+                    + nom_playlist + " de l'utilisateur numéro: "
+                    + id + ", introuvable"));
+            }
+
+            foreach(var playlist in playlists)
+            {
+                _context.PLAYLIST.Remove(playlist);
+            }
+            
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // PUT: api/Users/notes/5?note=note&musique=id_musique
+        [HttpPut("notes/{id}")]
+        public async Task<ActionResult<User>> PutUserNotes(int id,
+            [FromHeader] int note, [FromHeader] int musique)
+        {
+            if (note > 5 || note < 0)
+            {
+                return BadRequest(new Erreur("La note doit être compris entre 0 et 5 inclus"));
+            }
+            var note_user = await _context.NOTE
+                .Where(a => a.id_user == id && a.id_musique == musique)
+                .FirstOrDefaultAsync();
+            if(note_user == null)
+            {
+                return NotFound(new Erreur("le user numéro : "+id+" n'a pas déjà mis de note à la musique numéro :"+musique));
+            }
+            note_user.note = note;
+             _context.Entry(note_user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // POST : api/Users/playlist/copy/1?nom="string"&user=id_user
+        // Copie une playlist d'un autre utilisateur id_user 
+        [HttpPost("notes/copy/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylistCopie(int id,
+            [FromHeader] string nom, [FromHeader] int user)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            if (!UserExists(user))
+            {
+                return NotFound(new Erreur("User numéro: " + user + " inexistant"));
+            }
+
+            var playlists = await _context.PLAYLIST
+                .Where(a => a.id_user == user && a.nom == nom)
+                .ToListAsync();
+            if (playlists == null)
+            {
+                return NotFound(new Erreur("Playlist nommé : "
+                    + nom + " de l'utilisateur numéro: "
+                    + id + ", introuvable"));
+            }
+
+            var existe = await _context.PLAYLIST
+                .Where(a => a.id_user == id && a.nom == nom)
+                .ToListAsync();
+            if (existe != null)
+            {
+                return BadRequest(new Erreur("La playlist: "+nom+", existe déjà, impossible de copier"));
+            }
+
+            foreach(var playlist in playlists)
+            {
+                Playlist new_playlist = new Playlist()
+                {
+                    id_user = id,
+                    id_musique = playlist.id_musique,
+                    nom = playlist.nom
+                };
+                _context.PLAYLIST.Add(new_playlist);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
+        // POST : api/Users/playlist/import/1?album=id_album
+        // Importe l'album en playlist nommé "playlist"+nom_album
+        [HttpPost("notes/import/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, [FromHeader] int album)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+
+            var alb = await _context.ALBUM
+                .Include(a => a.musiques)
+                .Where(b => b.id_album == album)
+                .FirstOrDefaultAsync();
+            if (alb == null)
+            {
+                return NotFound(new Erreur("Album numéro: " + album + " inexistant"));
+            }
+
+            var existe = await _context.PLAYLIST
+                .Where(a => a.id_user == id && a.nom == "playlist_"+alb.nom_album)
+                .ToListAsync();
+            if (existe != null)
+            {
+                return BadRequest(new Erreur("La playlist existe déjà, impossible d'importer"));
+            }
+
+            foreach (var musique in alb.musiques)
+            {
+                Playlist new_playlist = new Playlist()
+                {
+                    id_user = id,
+                    id_musique = musique.id_musique,
+                    nom = "playlist_" + alb.nom_album
+                };
+                _context.PLAYLIST.Add(new_playlist);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
         }
     }
 }
