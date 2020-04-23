@@ -1,26 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace MyTunes.Models
 {
-    public class MyTunesContext : DbContext
+    public class MyTunesContext : DbContext//, IMyTunesContext
     {
         public MyTunesContext(DbContextOptions<MyTunesContext> options)
             : base(options)
         {
         }
 
-        public DbSet<A_fait> A_FAIT { get; set; }
-        public DbSet<Album> ALBUM { get; set; }
-        public DbSet<Appartient_a> APPARTIENT_A { get; set; }
-        public DbSet<Artiste> ARTISTE { get; set; }
-        public DbSet<De_genre> DE_GENRE { get; set; }
-        public DbSet<Editeur> EDITEUR { get; set; }
-        public DbSet<Genre> GENRE { get; set; }
-        public DbSet<Musique> MUSIQUE { get; set; }
-        public DbSet<Note> NOTE { get; set; }
-        public DbSet<Playlist> PLAYLIST { get; set; }
-        public DbSet<Pochette> POCHETTE { get; set; }
-        public DbSet<User> USER { get; set; }
+        //Les DbSet sont en virtual pour pouvoir de mocker (simuler/imiter) le framework et mettre en place une implementation mocker
+        public virtual DbSet<A_fait> A_FAIT { get; set; }
+        public virtual DbSet<Album> ALBUM { get; set; }
+        public virtual DbSet<Appartient_a> APPARTIENT_A { get; set; }
+        public virtual DbSet<Artiste> ARTISTE { get; set; }
+        public virtual DbSet<De_genre> DE_GENRE { get; set; }
+        public virtual DbSet<Editeur> EDITEUR { get; set; }
+        public virtual DbSet<Genre> GENRE { get; set; }
+        public virtual DbSet<Musique> MUSIQUE { get; set; }
+        public virtual DbSet<Note> NOTE { get; set; }
+        public virtual DbSet<Playlist> PLAYLIST { get; set; }
+        public virtual DbSet<Pochette> POCHETTE { get; set; }
+        public virtual DbSet<User> USER { get; set; }
 
         //On ne peut utiliser les Annontations pour les tables avec plusieurs clés primaires et pour les relations many-to-many, on doit le faire en Fluent API
         protected override void OnModelCreating(ModelBuilder builder)
