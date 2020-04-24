@@ -299,7 +299,7 @@ namespace MyTunes.Controllers
                 return NotFound(new Erreur("le user numéro : "+id+" n'a pas déjà mis de note à la musique numéro :"+musique));
             }
             note_user.note = note;
-             _context.Entry(note_user).State = EntityState.Modified;
+            _context.Entry(note_user).State = EntityState.Modified;
 
             try
             {
@@ -323,7 +323,7 @@ namespace MyTunes.Controllers
 
         // POST : api/Users/playlist/copy/1?nom="string"&user=id_user
         // Copie une playlist d'un autre utilisateur id_user 
-        [HttpPost("notes/copy/{id}")]
+        [HttpPost("playlist/copy/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylistCopie(int id,
             [FromHeader] string nom, [FromHeader] int user)
         {
@@ -378,7 +378,7 @@ namespace MyTunes.Controllers
 
         // POST : api/Users/playlist/import/1?album=id_album
         // Importe l'album en playlist nommé "playlist"+nom_album
-        [HttpPost("notes/import/{id}")]
+        [HttpPost("playlist/import/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, [FromHeader] int album)
         {
             if (!UserExists(id))

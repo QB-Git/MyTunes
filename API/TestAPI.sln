@@ -5,16 +5,30 @@ VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes", "TestAPI\MyTunes.csproj", "{8BE39120-DD40-44DE-B642-AC1C013EFDF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunesTests", "MyTunesTests\MyTunesTests.csproj", "{2FE110A5-A89E-4892-BD90-11C810B0EB01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Debug|x64.ActiveCfg = Debug|x64
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Debug|x64.Build.0 = Debug|x64
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Release|Any CPU.ActiveCfg = Release|x64
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Release|x64.ActiveCfg = Release|x64
+		{8BE39120-DD40-44DE-B642-AC1C013EFDF8}.Release|x64.Build.0 = Release|x64
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Debug|x64.Build.0 = Debug|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Release|x64.ActiveCfg = Release|Any CPU
+		{2FE110A5-A89E-4892-BD90-11C810B0EB01}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

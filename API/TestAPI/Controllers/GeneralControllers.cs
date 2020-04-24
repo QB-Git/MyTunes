@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MyTunes.Models;
 
 
+
 namespace MyTunes.Controllers
 {
     public class GeneralControllers : ControllerBase
@@ -14,7 +15,7 @@ namespace MyTunes.Controllers
 
         protected GeneralControllers(MyTunesContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         protected bool AlbumExists(int id)
