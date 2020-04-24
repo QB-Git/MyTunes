@@ -15,25 +15,28 @@ import MesPlaylists from '@/components/MesPlaylists'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: 'history',
-    routes: [
-        {
+    routes: [{
             path: '/',
             name: 'Accueil',
-            component: Accueil
+            component: Accueil,
+            meta: {title: 'MyTunes'}
         }, {
             path: '/profil',
             name: 'Profil',
-            component: Profil
+            component: Profil,
+            meta: {title: 'MyTunes - Profil'}
         }, {
             path: '/recherche',
             name: 'Recherche',
-            component: Recherche
+            component: Recherche,
+            meta: {title: 'MyTunes - Recherche'}
         }, {
             path: '/mes-playlists',
             name: 'Mes playlists',
-            component: MesPlaylists
+            component: MesPlaylists,
+            meta: {title: 'MyTunes - Mes Playlists'}
         }, /*{
             path: '/article/:id(\\d+)',
             name: 'PageA',
@@ -47,4 +50,15 @@ export default new Router({
             redirect: '/'
         }
     ]
-})
+ });
+
+const DEFAULT_TITLE = 'MyTunes';
+router.afterEach((to, from) => {
+    // Use next tick to handle router history correctly
+    // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
+
+export default router;

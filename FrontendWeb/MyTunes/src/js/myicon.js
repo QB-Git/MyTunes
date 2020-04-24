@@ -71,7 +71,7 @@ window.getSvg = (nom) => {
             res += $(item.svg).removeClass().addClass('myicon-' + nom)[0].outerHTML;
         }
     });
-    console.log(res);
+    //console.log(res);
     return res;
 }
 

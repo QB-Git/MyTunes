@@ -8,7 +8,6 @@
         </div>
         <!-- <lecteur-audio :sourceAudio="'//drive.google.com/uc?id=1QzqtWXki3yJdS2n6z8kLwvHDZYPogZTL'"/> -->
         <lecteur-audio/>
-
     </div>
 </template>
 
@@ -40,7 +39,8 @@ export default {
 }
 
 .content {
-    padding-bottom: 100px;
+    padding: 30px;
+    padding-bottom: 110px;
 }
 
 p {
