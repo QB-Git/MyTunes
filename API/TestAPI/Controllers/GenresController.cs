@@ -26,7 +26,7 @@ namespace MyTunes.Controllers
 
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(genres.Where(s => s.genre.Contains(recherche)));
+                return Ok(genres.Where(s => s.genre.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(genres);

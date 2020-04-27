@@ -37,7 +37,7 @@ namespace MyTunes.Controllers
 
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(musiques.Where(s => s.titre.Contains(recherche)));
+                return Ok(musiques.Where(s => s.titre.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(musiques);

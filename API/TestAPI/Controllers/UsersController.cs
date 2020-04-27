@@ -28,7 +28,7 @@ namespace MyTunes.Controllers
 
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(users.Where(s => s.pseudo.Contains(recherche)));
+                return Ok(users.Where(s => s.pseudo.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(users);
@@ -344,6 +344,13 @@ namespace MyTunes.Controllers
                 return NotFound(new Erreur("Playlist nommé : "
                     + nom + " de l'utilisateur numéro: "
                     + id + ", introuvable"));
+            }
+
+            if (!playlists[0].publique)
+            {
+                return NotFound(new Erreur("Playlist nommé : "
+                    + nom + " de l'utilisateur numéro: "
+                    + id + " est privé"));
             }
 
             var existe = await _context.PLAYLIST

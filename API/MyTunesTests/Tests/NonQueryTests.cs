@@ -32,6 +32,8 @@ namespace MyTunes.Tests
             });
 
             mockSet.Verify(m => m.Add(It.IsAny<Editeur>()), Times.Once());
+            var a = service.GetEditeur(1);
+            mockSet.Verify(m => m.FindAsync(), Times.Once);
         }
     }
 }
