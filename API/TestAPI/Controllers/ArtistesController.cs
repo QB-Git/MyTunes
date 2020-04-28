@@ -26,7 +26,7 @@ namespace MyTunes.Controllers
                 .ToListAsync();
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(artistes.Where(s => s.nom.Contains(recherche) || s.prenom.Contains(recherche)));
+                return Ok(artistes.Where(s => s.nom.ToLower().Contains(recherche.ToLower()) || s.prenom.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(artistes);
@@ -65,9 +65,9 @@ namespace MyTunes.Controllers
         }
 
         // POST : api/Artistes/a_fait/1
-        // Ajout une liste de musique à l'album 1
+        // Ajout une liste de musique à l'artiste 1
         [HttpPost("a_fait/{id}")]
-        public async Task<ActionResult<Artiste>> PostAlbumPistes(int id, [FromBody] IEnumerable<int> musiques)
+        public async Task<ActionResult<Artiste>> PostArtisteA_Fait(int id, [FromBody] IEnumerable<int> musiques)
         {
             if (!ArtisteExists(id))
             {

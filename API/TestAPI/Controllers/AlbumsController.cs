@@ -26,7 +26,7 @@ namespace MyTunes.Controllers
                 .ToListAsync();
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(albums.Where(s => s.nom_album.Contains(recherche)));
+                return Ok(albums.Where(s => s.nom_album.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(albums);

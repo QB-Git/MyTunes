@@ -22,7 +22,7 @@ namespace MyTunes.Controllers
             var editeurs = await _context.EDITEUR.ToListAsync();
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(editeurs.Where(s => s.nom_editeur.Contains(recherche)));
+                return Ok(editeurs.Where(s => s.nom_editeur.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(editeurs);
