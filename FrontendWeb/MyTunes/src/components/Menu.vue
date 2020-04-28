@@ -93,6 +93,7 @@ export default {
         background: rgba(255, 255, 255, 0.1);
         border-radius: 0;
         border-width: 0;
+        z-index: 2;
     }
     .ui.icon.menu .item {
         display: flex;

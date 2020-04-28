@@ -52,7 +52,7 @@ export default {
     top: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
+    z-index: 0;
 }
 
 .content {
@@ -61,6 +61,7 @@ export default {
     padding-bottom: 30px;
     display: flex;
     height: calc(100vh - var(--lecteur-audio-height));
+    z-index: 1;
 }
 
 p {
