@@ -13,8 +13,6 @@ import { OverlayScrollbarsPlugin } from 'overlayscrollbars-vue';
 
 Vue.config.productionTip = false;
 
-//Vue.component('overlay-scrollbars', OverlayScrollbarsComponent);
-
 Vue.use(SuiVue);
 Vue.use(OverlayScrollbarsPlugin);
 
@@ -25,5 +23,5 @@ new Vue({
     components: { App },
     template: '<App/>'
 })
-
-OverlayScrollbars(document.getElementsByClassName('content')[0], {});
+// 
+// OverlayScrollbars(document.getElementsByClassName('main')[0], {});

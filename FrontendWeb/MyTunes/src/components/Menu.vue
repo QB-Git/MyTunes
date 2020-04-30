@@ -1,17 +1,9 @@
 <template>
     <div class="ui vertical icon menu">
-        <router-link to="/">
-            <a class="item logo" v-html='logo'></a>
-        </router-link>
-        <router-link to="/profil">
-            <a class="item" v-html='user'></a>
-        </router-link>
-        <router-link to="./recherche">
-            <a class="item" v-html='search'></a>
-        </router-link>
-        <router-link to="./mes-playlists">
-            <a class="item" v-html='music'></a>
-        </router-link>
+        <router-link to="/" class="item logo" v-html='logo'></router-link>
+        <router-link to="/profil" class="item" v-html='user'></router-link>
+        <router-link to="./recherche" class="item" v-html='search'></router-link>
+        <router-link to="./mes-playlists" class="item" v-html='music'></router-link>
     </div>
 </template>
 
@@ -27,10 +19,7 @@ export default {
             search: getSvg('search')+'<span>Chercher</span>',
             music: getSvg('music')+'<span>Mes playlists</span>'
         }
-    }/*,
-    mounted: function() {
-        SvgReplaceAll() ;
-    }*/
+    }
 }
 </script>
 
