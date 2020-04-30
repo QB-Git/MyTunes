@@ -268,16 +268,16 @@ INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (145, N'ThrashMetal')
 INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (146, N'Anime')
 INSERT INTO [dbo].[GENRE] ([id_genre], [genre]) VALUES (147, N'JPop')
 
+INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (1, N'jesaispasou')
+INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (2, N'https://drive.google.com/uc?id=14Fzs-gyrvlpRhFYVIIW-V-xOL-qtWziL')
+INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (3, N'https://drive.google.com/uc?id=1V3e1hGbedrW5bkLJaZycCwAxb7i2iUGI')
+
 INSERT INTO [dbo].[ALBUM] ([id_album], [nom_album], [id_pochette]) VALUES (1, N'les classiques', 1)
 INSERT INTO [dbo].[ALBUM] ([id_album], [nom_album], [id_pochette]) VALUES (2, N'Invincible', 2)
 INSERT INTO [dbo].[ALBUM] ([id_album], [nom_album], [id_pochette]) VALUES (3, N'Archangel', 3)
 
 INSERT INTO [dbo].[USER] ([id_user], [pseudo], [password], [token]) VALUES (1, N'JackyDu45', N'1234', NULL)
 INSERT INTO [dbo].[USER] ([id_user], [pseudo], [password], [token]) VALUES (2, N'Richard', N'azerty', NULL)
-
-INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (1, N'jesaispasou')
-INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (2, N'https://drive.google.com/uc?id=14Fzs-gyrvlpRhFYVIIW-V-xOL-qtWziL')
-INSERT INTO [dbo].[POCHETTE] ([id_pochette], [img_pochette]) VALUES (3, N'https://drive.google.com/uc?id=1V3e1hGbedrW5bkLJaZycCwAxb7i2iUGI')
 
 INSERT INTO [dbo].[ARTISTE] ([id_artiste], [prenom], [nom]) VALUES (1, N'André', N'Rieu')
 INSERT INTO [dbo].[ARTISTE] ([id_artiste], [prenom], [nom]) VALUES (2, N'marc', N'jean')
