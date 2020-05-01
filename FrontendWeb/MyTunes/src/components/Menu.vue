@@ -79,7 +79,8 @@ export default {
         height: calc(100vh - var(--lecteur-audio-height));
         margin: 0;
         width: var(--menu-width);
-        background: rgba(255, 255, 255, 0.1);
+        /* background: rgba(255, 255, 255, 0.1); */
+        background: rgba(255, 255, 255, 0.25);
         border-radius: 0;
         border-width: 0;
         z-index: 2;

@@ -40,7 +40,8 @@ html {
 }
 .bg {
     background-color: rgb(35, 35, 35);
-    background-image: url('../src/assets/test.svg');
+    /* background-image: url('../src/assets/test.svg'); */
+    background-image: url('../src/assets/test.svg'), linear-gradient(-134deg, #C182DC 0%, #FB7C62 94%, #FF7C5B 100%);
     position: fixed;
     top: 0;
     width: 100vw;

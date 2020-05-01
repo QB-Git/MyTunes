@@ -18,8 +18,8 @@
 </template>
 
 <script>
-    import JQuery from 'jquery'
-    let $ = JQuery
+    import $ from 'jquery'
+
     function resize() {
         if ($(window).width() < 1095) {
             $('.col').removeClass('column');
