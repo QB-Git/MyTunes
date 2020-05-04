@@ -45,6 +45,10 @@ namespace MyTunes
                     };
                 };
             });
+
+            services.AddCors(c => {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -59,6 +63,9 @@ namespace MyTunes
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(options => options.AllowAnyOrigin());
+
 
             app.UseEndpoints(endpoints =>
             {
