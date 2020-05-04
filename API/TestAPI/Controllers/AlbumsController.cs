@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTunes.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyTunes.Controllers
 {
@@ -26,7 +26,7 @@ namespace MyTunes.Controllers
                 .ToListAsync();
             if (!string.IsNullOrEmpty(recherche))
             {
-                return Ok(albums.Where(s => s.nom_album.Contains(recherche)));
+                return Ok(albums.Where(s => s.nom_album.ToLower().Contains(recherche.ToLower())));
             }
 
             return Ok(albums);
@@ -72,11 +72,11 @@ namespace MyTunes.Controllers
             {
                 return NotFound(new Erreur("Album numéro: " + id + " inexistant"));
             }
-            foreach(var musique in musiques)
+            foreach (var musique in musiques)
             {
                 if (!MusiqueExists(musique))
                 {
-                    return NotFound(new Erreur("Musique numéro: "+musique+" inexistante"));
+                    return NotFound(new Erreur("Musique numéro: " + musique + " inexistante"));
                 }
             }
 
@@ -84,7 +84,8 @@ namespace MyTunes.Controllers
                 .Where(a => a.id_album == id)
                 .Count();
 
-            foreach(var musique in musiques){
+            foreach (var musique in musiques)
+            {
                 Appartient_a appartient = new Appartient_a()
                 {
                     id_album = id,
@@ -134,7 +135,7 @@ namespace MyTunes.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-               throw;
+                throw;
             }
 
             var result = await _context.ALBUM
