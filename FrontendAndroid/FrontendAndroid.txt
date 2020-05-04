@@ -1,0 +1,3 @@
+Fragment ok
+Play pause ok
+en cours de reliance avec l'API
