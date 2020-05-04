@@ -1,10 +1,20 @@
 <template>
     <div id="app">
         <div class="bg"></div>
-            <Menu/>
-        <!-- <overlay-scrollbars :options="osComponentOptions" :class="hasCustomClassName ? customClassName : ''"> -->
-            <router-view id="aaa" class="content"/>
-        <!-- </overlay-scrollbars> -->
+        <Menu/>
+        <overlay-scrollbars>
+        <div class="main">
+            <div class="ui black icon message transition">
+                <i class="close icon"></i>
+                <i class="sign-in icon"></i>
+                <div class="content">
+                    <div class="header">Vous n'êtes pas connecté</div>
+                    <p>En vous connectant vous pourrez accéder à plus de fonctionnalités. <router-link to="/profil">Se connecter</router-link></p>
+                </div>
+            </div>
+            <router-view class="main-content"/>
+        </div>
+      </overlay-scrollbars>
         <!-- <lecteur-audio :sourceAudio="'//drive.google.com/uc?id=1QzqtWXki3yJdS2n6z8kLwvHDZYPogZTL'"/> -->
 
         <lecteur-audio/>
@@ -12,20 +22,6 @@
 </template>
 
 <script>
-import OverlayScrollbars from 'overlayscrollbars';
-
-// OverlayScrollbars(document.body, {
-//     nativeScrollbarsOverlaid: {
-//         initialize: false
-//     }
-// });
-OverlayScrollbars(document.getElementById('aaa'), {});
-
-// var instance = OverlayScrollbars(, {
-//
-// });
-
-
 import LecteurAudio from '@/components/LecteurAudio'
 import Menu from '@/components/Menu'
 
@@ -39,15 +35,13 @@ export default {
 </script>
 
 <style>
-
-#app {
-    color: #e9e9e9;
-    /* overflow:hidden; */
+html {
+    overflow: hidden;
 }
-
 .bg {
     background-color: rgb(35, 35, 35);
-    background-image: url('../src/assets/test.svg');
+    /* background-image: url('../src/assets/test.svg'); */
+    background-image: url('../src/assets/test.svg'), linear-gradient(-134deg, #C182DC 0%, #FB7C62 94%, #FF7C5B 100%);
     position: fixed;
     top: 0;
     width: 100vw;
@@ -55,16 +49,37 @@ export default {
     z-index: 0;
 }
 
-.content {
+.main {
     padding: 30px;
     padding-left: calc(30px + var(--menu-width));
     padding-bottom: 30px;
-    display: flex;
     height: calc(100vh - var(--lecteur-audio-height));
+}
+
+.main * {
     z-index: 1;
 }
 
-p {
+.main-content p {
     color: rgba(3,169,244,1);
+}
+
+.ui.message {
+    /* background-color: rgba(0, 0, 0, 0.4); */
+    /* color: #276f86; */
+    color: white;
+}
+
+.ui.header {
+    color: white;
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 </style>

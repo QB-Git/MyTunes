@@ -6,14 +6,11 @@ import App from './App'
 import router from './router'
 import SuiVue from 'semantic-ui-vue'
 import 'semantic-ui-css/semantic.min.css';
-
 import "overlayscrollbars/css/OverlayScrollbars.css";
 import { OverlayScrollbarsPlugin } from 'overlayscrollbars-vue';
 
 
 Vue.config.productionTip = false;
-
-//Vue.component('overlay-scrollbars', OverlayScrollbarsComponent);
 
 Vue.use(SuiVue);
 Vue.use(OverlayScrollbarsPlugin);
@@ -25,5 +22,5 @@ new Vue({
     components: { App },
     template: '<App/>'
 })
-
-OverlayScrollbars(document.getElementsByClassName('content')[0], {});
+//
+// OverlayScrollbars(document.getElementsByClassName('main')[0], {});
