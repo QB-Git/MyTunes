@@ -5,40 +5,112 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.BufferedInputStream;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
+    private TextView mTextViewResult;
+
+    // connection
+    protected class JSONTask extends AsyncTask<String, String, String>{
+        @Override
+        protected String doInBackground(String... urls) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                URL url = new URL(urls[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuffer buffer = new StringBuffer();
+
+                String line="";
+                while ((line = reader.readLine()) != null){
+                    buffer.append(line);
+                }
+                //récupération des données OK
+                return buffer.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }try {
+                    if(reader != null) {
+                        reader.close();
+                    }
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            //récupération des données pas OK
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            mTextViewResult.setText(result);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        // Bouton Parse JSON, avec Editeur
+        Button buttonParse = (Button)findViewById(R.id.button_parse);
+        mTextViewResult = (TextView)findViewById(R.id.text_view_result);
+
+        buttonParse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new JSONTask().execute("https://mytunes20200429155409.azurewebsites.net/api/Editeurs");
+            }
+        });
+
         // Bouton lecture
-        mediaPlayer = MediaPlayer.create(this, R.raw.sound);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.sound);
         Button playButton = (Button) findViewById(R.id.start);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
                         Toast.makeText(MainActivity.this, "La chanson est finie", Toast.LENGTH_SHORT).show();
@@ -51,41 +123,9 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.pause();
+                mMediaPlayer.pause();
             }
         });
-
-        // teste connection
-        URL url;
-        HttpURLConnection urlConnection = null;
-
-        Log.i("Coucou", "c'est avant");
-        try {
-            url = new URL("http://www.android.com/");
-
-            urlConnection = (HttpURLConnection) url
-                    .openConnection();
-
-            InputStream in = urlConnection.getInputStream();
-
-            InputStreamReader isw = new InputStreamReader(in);
-
-            int data = isw.read();
-            while (data != -1) {
-                char current = (char) data;
-                data = isw.read();
-                Log.i("MainActivity", "cuurent ="+current);;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-
-
-        Log.i("Coucou", "c'est passé");
 
         BottomNavigationView bottomNav = findViewById(R.id.nav_view);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
