@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:background="@android:color/holo_red_light">
 
     <TextView
@@ -11,37 +12,20 @@
         android:textSize="30dp"
         android:layout_centerInParent="true"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/background_light"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:id="@+id/button_parse"
+        android:text="Go go Parsing Rangers"
+        android:layout_centerHorizontal="true"/>
 
 
-        <!-- EN BRUT A MODIFIER -->
-        <ImageButton
-            android:id="@+id/play_pause"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@android:drawable/ic_media_play"
-            android:layout_gravity="center_vertical"
-            android:tint="@color/colorAccent"
-            android:foregroundGravity="center_vertical"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/icons" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Item test"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/primary_text"
-            android:layout_gravity="center_vertical"
-            android:foregroundGravity="center_horizontal"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text_view_result"
+        android:layout_below="@+id/button_parse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20dp"
+        />
 
 </RelativeLayout>
