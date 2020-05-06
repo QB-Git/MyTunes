@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     // connection
     protected class JSONTask extends AsyncTask<String, String, String>{
         @Override
+        //c'est là où je fais le taff
         protected String doInBackground(String... urls) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
@@ -60,9 +61,21 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append(line);
                 }
                 //récupération des données OK
-                return buffer.toString();
+                String finalJson = buffer.toString();
 
-            } catch (IOException e) {
+                JSONArray parentArray = new JSONArray(finalJson);
+
+                StringBuffer finalBufferedData = new StringBuffer();
+                for(int i = 0; i<parentArray.length(); i++){
+                    JSONObject genre = parentArray.getJSONObject(i);
+
+                    //int genre_id = genre.getInt("id_genre");
+                    String genre_type = genre.getString("genre");
+                    finalBufferedData.append(genre_type + " \n");
+                }
+                return finalBufferedData.toString();
+
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             } finally {
                 if (connection != null) {
@@ -79,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+        //c'est là où je présente le résultat du taff
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -99,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new JSONTask().execute("https://mytunes20200429155409.azurewebsites.net/api/Editeurs");
+                new JSONTask().execute("https://mytunes20200429155409.azurewebsites.net/api/Genres");
             }
         });
 
