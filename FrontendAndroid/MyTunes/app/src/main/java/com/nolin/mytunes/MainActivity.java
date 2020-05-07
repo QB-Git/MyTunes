@@ -1,16 +1,25 @@
 package com.nolin.mytunes;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.nolin.mytunes.models.GenreModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,17 +42,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Genres";
     private MediaPlayer mMediaPlayer;
-    private TextView mTextViewResult;
+    private ListView lvGenres;
 
     // connection
-    protected class JSONTask extends AsyncTask<String, String, String>{
+    protected class JSONTask extends AsyncTask<String, String, ArrayList<GenreModel>>{
+
         @Override
-        //c'est là où je fais le taff
-        protected String doInBackground(String... urls) {
+        //c'est là où je fais le taff, load JSON en background
+        protected ArrayList<GenreModel> doInBackground(String... urls) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
 
@@ -50,12 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(urls[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream stream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
-
                 StringBuffer buffer = new StringBuffer();
-
                 String line="";
                 while ((line = reader.readLine()) != null){
                     buffer.append(line);
@@ -65,15 +76,16 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONArray parentArray = new JSONArray(finalJson);
 
-                StringBuffer finalBufferedData = new StringBuffer();
+                ArrayList<GenreModel> genreModelList = new ArrayList<>();
                 for(int i = 0; i<parentArray.length(); i++){
-                    JSONObject genre = parentArray.getJSONObject(i);
+                    JSONObject finalObject = parentArray.getJSONObject(i);
+                    GenreModel genreModel = new GenreModel();
 
-                    //int genre_id = genre.getInt("id_genre");
-                    String genre_type = genre.getString("genre");
-                    finalBufferedData.append(genre_type + " \n");
+                    genreModel.setID_Genre(finalObject.getInt("id_genre"));
+                    genreModel.setGenre(finalObject.getString("genre"));
+                    genreModelList.add(genreModel);
                 }
-                return finalBufferedData.toString();
+                return genreModelList;
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -92,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-        //c'est là où je présente le résultat du taff
+        //c'est là où j'envoie le résultat à l'adapter
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ArrayList<GenreModel> result) {
             super.onPostExecute(result);
-            mTextViewResult.setText(result);
+            GenreAdapter adapter = new GenreAdapter(getApplicationContext(), R.layout.row, result);
+            lvGenres.setAdapter(adapter);
         }
     }
 
@@ -105,20 +118,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lvGenres = findViewById(R.id.lvGenres);
 
-        // Bouton Parse JSON, avec Editeur
-        Button buttonParse = (Button)findViewById(R.id.button_parse);
-        mTextViewResult = (TextView)findViewById(R.id.text_view_result);
+        new JSONTask().execute(URL_TO_HIT);
 
-        buttonParse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new JSONTask().execute("https://mytunes20200429155409.azurewebsites.net/api/Genres");
-            }
-        });
 
         // Bouton lecture
-        mMediaPlayer = MediaPlayer.create(this, R.raw.sound);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.bubblegumkk);
         Button playButton = (Button) findViewById(R.id.start);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +170,48 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+
+    public class GenreAdapter extends ArrayAdapter {
+
+        private List<GenreModel> genreModelList;
+        private int ressource;
+        private LayoutInflater inflater;
+        public GenreAdapter(@NonNull Context context, int resource, List<GenreModel> objects) {
+            super(context, resource, objects);
+            genreModelList = objects;
+            this.ressource = resource;
+            inflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            if(convertView==null){
+                convertView = inflater.inflate(ressource, null);
+            }
+            ImageView ivAudioIcon;
+            TextView tvID_Genre;
+            TextView tvGenre;
+
+
+            ivAudioIcon = convertView.findViewById(R.id.ivPochette);
+            tvID_Genre = convertView.findViewById(R.id.tvID_Genre);
+            tvGenre = convertView.findViewById(R.id.tvGenre);
+
+
+            /*
+                ATTENTION NE SURTOUT PAS OUBLIER DE FAIRE UN COUP DE SETTER
+                APRES LE FindViewById !!!!!
+             */
+            tvGenre.setText(genreModelList.get(position).getGenre());
+            tvID_Genre.setText(genreModelList.get(position).getID_Genre_String());
+            ivAudioIcon.setImageResource(R.drawable.bubblegumkk);
+
+            return convertView;
+        }
     }
 
 

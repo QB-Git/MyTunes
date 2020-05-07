@@ -2,30 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/holo_red_light">
+    android:background="@android:color/holo_green_light">
 
-    <TextView
+    <ListView
+        android:id="@+id/lvGenres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accueil Fragment"
-        android:textSize="30dp"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_parse"
-        android:text="Go go Parsing Rangers"
-        android:layout_centerHorizontal="true"/>
-
-
-    <TextView
-        android:id="@+id/text_view_result"
-        android:layout_below="@+id/button_parse"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="20dp"
         />
 
 </RelativeLayout>
