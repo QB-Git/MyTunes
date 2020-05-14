@@ -15,13 +15,45 @@
             <router-view class="main-content"/>
         </div>
       </overlay-scrollbars>
-        <!-- <lecteur-audio :sourceAudio="'//drive.google.com/uc?id=1QzqtWXki3yJdS2n6z8kLwvHDZYPogZTL'"/> -->
+        <lecteur-audio :sourceAudio="'//drive.google.com/uc?id=1QzqtWXki3yJdS2n6z8kLwvHDZYPogZTL'"/>
 
-        <lecteur-audio/>
+        <!-- <div id="amplitude-play-pause" class="amplitude-paused"></div> -->
+        <!-- <lecteur-audio/> -->
     </div>
 </template>
 
 <script>
+window.$ = window.jQuery = require('jquery')
+window._ = require('underscore')
+require('semantic-ui-css/semantic.css')
+require('semantic-ui-css/semantic.js')
+require('@/js/api.js')
+
+// window.Amplitude = require('amplitudejs/dist/amplitude.js')
+// // import 'amplitudejs/dist/amplitude.js';
+//
+// console.log('Amplitude',Amplitude);
+//
+// Amplitude.init({
+//     "songs": [
+//         {
+//             "name": "Risin' High (feat Raashan Ahmad)",
+//             "artist": "Ancient Astronauts",
+//             "album": "We Are to Answer",
+//             "url": "https://521dimensions.com/song/Ancient Astronauts - Risin' High (feat Raashan Ahmad).mp3",
+//             "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg"
+//         },
+//         {
+//             "name": "Risin' High (feat Raashan Ahmad)",
+//             "artist": "Ancient Astronauts",
+//             "album": "We Are to Answer",
+//             "url": "https://521dimensions.com/song/Ancient Astronauts - Risin' High (feat Raashan Ahmad).mp3",
+//             "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg"
+//         }
+//     ],
+//     "autoplay": true
+// });
+
 import LecteurAudio from '@/components/LecteurAudio'
 import Menu from '@/components/Menu'
 
