@@ -18,14 +18,12 @@
 </template>
 
 <script>
-    import $ from 'jquery'
-
     function resize() {
         if ($(window).width() < 1095) {
             $('.col').removeClass('column');
         } else $('.col').addClass('column');
     }
-    (() => { resize(); });
+    $(() => { resize(); });
 
     $(window).resize(() => { resize(); });
 
@@ -58,6 +56,20 @@
                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique23', artiste: 'Artiste23'}
                   ]
                 }
+        },
+        mounted () {
+
+            // axios.get('https://mytunes20200429155409.azurewebsites.net/api/Genres')
+            //     .then(function (response) {
+            //
+            // 		console.log(response.data[0].id_genre, response.data[0].genre, response.data[0].musiques);
+            // 		console.log('response is : ' + response.data);
+            // 	}).catch(function (error) {
+            //         if (error.response) console.log(error.response.headers);
+            //         else if (error.request) console.log(error.request);
+            //         else console.log(error.message);
+            //         console.log(error.config);
+            // });
         }
     }
 </script>
