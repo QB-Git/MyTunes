@@ -26,11 +26,11 @@ namespace MyTunes.Controllers
                 .Include(c => c.artistes)
                     .ThenInclude(d => d.Artiste)
                 .Include(e => e.genres)
-                    .ThenInclude(f => f.Genre)
+                    //.ThenInclude(f => f.Genre) Pose problèmes
                 .Include(g => g.albums)
-                    .ThenInclude(h => h.Album)
+                    //.ThenInclude(h => h.Album) Pose problème
                 .Include(i => i.notes)
-                    //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
                 /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
                     .ThenInclude(l => l.User)*/
                 .ToListAsync();

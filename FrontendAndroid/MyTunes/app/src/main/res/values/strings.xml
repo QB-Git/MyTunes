@@ -1,17 +1,14 @@
 <resources>
     <string name="app_name">MyTunes</string>
 
-    <!-- BOTTOM NAVIGATION VIEW -->
+    <!-- bottom_nav_menu -->
     <string name="bottom_navigation_menu_home">Accueil</string>
     <string name="bottom_navigation_menu_search">Rechercher</string>
     <string name="bottom_navigation_menu_library">Bibliothèque</string>
     <string name="bottom_navigation_menu_user">Connexion</string>
 
-    <!--search_activity -->
-    <string name="title_search">Rechercher</string>
-    <string name="search_bar">Titre, artiste, ou album</string>
+    <string name="bt_play">Play</string>
+    <string name="action_refresh">Refresh</string >
 
-    <!-- artist_activity -->
-    <string name="title_artist">Artiste</string>
 
 </resources>
