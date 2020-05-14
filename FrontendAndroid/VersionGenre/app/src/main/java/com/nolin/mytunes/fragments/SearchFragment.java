@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private final String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
+    private String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
 
     private ListView lvMusiques;
     private TextInputEditText tiRecherche;
@@ -38,7 +38,17 @@ public class SearchFragment extends Fragment {
         tiRecherche = myView.findViewById(R.id.tiRecherche);
         buttonRecherche = myView.findViewById(R.id.buttonRecherche);
 
-        new ConnectionRecherche(this).execute(URL_TO_HIT);
+        buttonRecherche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tiRecherche.getText().equals("")){
+                    new ConnectionRecherche(SearchFragment.this).execute(URL_TO_HIT);
+                } else {
+                    String[] urls = {URL_TO_HIT, tiRecherche.getText().toString()};
+                    new ConnectionRecherche(SearchFragment.this).execute(urls);
+                }
+
+                }});
 
         return myView;
     }
