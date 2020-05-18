@@ -18,7 +18,7 @@ namespace MyTunes.Controllers
 
         // GET: api/Musiques?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE([FromHeader] string recherche)
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE([FromRoute] string recherche)
         {
             var musiques = await _context.MUSIQUE
                 .Include(a => a.pochette)
