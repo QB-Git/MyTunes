@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTunes.Models;
@@ -16,9 +17,31 @@ namespace MyTunes.Controllers
         {
         }
 
-        // GET: api/Musiques?recherche="string"
+        // GET: api/Musiques
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE([FromRoute] string recherche)
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUE()
+        {
+            var musiques = await _context.MUSIQUE
+                .Include(a => a.pochette)
+                .Include(b => b.editeur)
+                .Include(c => c.artistes)
+                    .ThenInclude(d => d.Artiste)
+                .Include(e => e.genres)
+                //.ThenInclude(f => f.Genre) Pose problèmes
+                .Include(g => g.albums)
+                //.ThenInclude(h => h.Album) Pose problème
+                .Include(i => i.notes)
+                //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
+                    .ThenInclude(l => l.User)*/
+                .ToListAsync();
+
+            return Ok(musiques);
+        }
+
+        // GET: api/Musiques/recherche/titre/"string"
+        [HttpGet("recherche/titre/{titre}")]
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUETitre(string titre)
         {
             var musiques = await _context.MUSIQUE
                 .Include(a => a.pochette)
@@ -33,12 +56,55 @@ namespace MyTunes.Controllers
                 //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
                 /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
                     .ThenInclude(l => l.User)*/
+                .Where(s => s.titre.ToLower().Contains(titre.ToLower()))
                 .ToListAsync();
 
-            if (!string.IsNullOrEmpty(recherche))
-            {
-                return Ok(musiques.Where(s => s.titre.ToLower().Contains(recherche.ToLower())));
-            }
+            return Ok(musiques);
+        }
+
+        // GET: api/Musiques/recherche/artiste/"string"
+        [HttpGet("recherche/artiste/{artiste}")]
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUEArtiste(string artiste)
+        {
+            var musiques = await _context.MUSIQUE
+                .Include(a => a.pochette)
+                .Include(b => b.editeur)
+                .Include(c => c.artistes)
+                    .ThenInclude(d => d.Artiste)
+                .Include(e => e.genres)
+                //.ThenInclude(f => f.Genre) Pose problèmes
+                .Include(g => g.albums)
+                //.ThenInclude(h => h.Album) Pose problème
+                .Include(i => i.notes)
+                //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
+                    .ThenInclude(l => l.User)*/
+                .Where(s => s.artistes.Any(s => s.Artiste.nom.ToLower().Contains(artiste.ToLower()) ||
+                 s.Artiste.prenom.ToLower().Contains(artiste.ToLower())))
+                .ToListAsync();
+
+            return Ok(musiques);
+        }
+
+        // GET: api/Musiques/recherche/genre/"string"
+        [HttpGet("recherche/genre/{genre}")]
+        public async Task<ActionResult<IEnumerable<Musique>>> GetMUSIQUEGenre(string genre)
+        {
+            var musiques = await _context.MUSIQUE
+                .Include(a => a.pochette)
+                .Include(b => b.editeur)
+                .Include(c => c.artistes)
+                    .ThenInclude(d => d.Artiste)
+                .Include(e => e.genres)
+                //.ThenInclude(f => f.Genre) Pose problèmes
+                .Include(g => g.albums)
+                //.ThenInclude(h => h.Album) Pose problème
+                .Include(i => i.notes)
+                //.ThenInclude(j => j.User) Pas de besoin de connaitre plus d'informations
+                /*.Include(k => k.playlists)    Pas Besoin de connaitre les playlists dans lesquelles sont les musiques
+                    .ThenInclude(l => l.User)*/
+                .Where(s => s.genres.Any(g => g.Genre.genre.ToLower().Contains(genre.ToLower())))
+                .ToListAsync();
 
             return Ok(musiques);
         }
