@@ -8,10 +8,17 @@ import router from './router'
 import "overlayscrollbars/css/OverlayScrollbars.css";
 import { OverlayScrollbarsPlugin } from 'overlayscrollbars-vue';
 
+// import AsyncComputed from 'vue-async-computed';
+
+import VueResource from 'vue-resource'
+
+
 Vue.config.productionTip = false;
 
 // Vue.use(SuiVue);
+// Vue.use(AsyncComputed);
 Vue.use(OverlayScrollbarsPlugin);
+Vue.use(VueResource);
 
 /* eslint-disable no-new */
 new Vue({
