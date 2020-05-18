@@ -54,23 +54,6 @@ public class Connection extends AsyncTask<String, String, ArrayList<AudioModel>>
             for(int i = 0; i<parentArray.length(); i++){
                 JSONObject finalObject = parentArray.getJSONObject(i);
                 AudioModel audioModel = gson.fromJson(finalObject.toString(), AudioModel.class);
-
-
-                audioModel.setTitre(finalObject.getString("titre"));
-                audioModel.setURL(finalObject.getString("url"));
-                //String tralala1 = "";
-                //String tralala2 = "";
-
-               // for(int j=0 ; j<finalObject.getJSONArray("artistes").length() ; j++) {
-
-                    //Log.e("tag", "hello hello hello hello hello hello");
-                    //for(int k=0 ; k<finalObject.getJSONArray("artistes").length() ; k++) {
-                        //audioModel.setID_Audio(finalObject.getJSONArray("artistes").getInt(k));
-                        //audioModel.setArtiste(finalObject.getJSONArray("artistes").getJSONObject(k).getString("nom"));
-                    //}
-                    //tralala2 = finalObject.getJSONArray("artiste").getJSONObject(j).getString("prenom");
-                //}
-
                 audioModelList.add(audioModel);
             }
             return audioModelList;

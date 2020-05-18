@@ -1,11 +1,8 @@
-package com.nolin.mytunes;
+package com.nolin.mytunes.ui;
+import com.nolin.mytunes.R;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.nolin.mytunes.models.AudioModel;
-import com.nolin.mytunes.utils.ConnectionRecherche;
-
-import java.io.InputStream;
 import java.util.List;
-import java.util.Set;
 
 public class MusiqueAdapter extends ArrayAdapter {
 

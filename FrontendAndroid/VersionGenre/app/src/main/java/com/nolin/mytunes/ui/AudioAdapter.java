@@ -1,6 +1,7 @@
 package com.nolin.mytunes.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.nolin.mytunes.R;
+import com.nolin.mytunes.models.Artistes;
 import com.nolin.mytunes.models.AudioModel;
 
 import java.util.List;
@@ -40,10 +42,24 @@ public class AudioAdapter extends ArrayAdapter {
 
         ivAudioIcon = convertView.findViewById(R.id.ivPochette);
         tvTitre = convertView.findViewById(R.id.tvTitre);
+        tvArtiste = convertView.findViewById(R.id.tvArtiste);
 
+
+        StringBuilder temp = new StringBuilder();
+
+        Artistes current;
+        for(int i=0 ; i<audioModelList.get(position).getArtistes().size(); i++){
+            current= audioModelList.get(position).getArtiste(i);
+            if (current.getArtiste().getPrenom()!=null)
+                temp.append(current.getArtiste().getPrenom()).append(" ");
+            if (current.getArtiste().getNom()!=null)
+                temp.append(current.getArtiste().getNom()).append("   ");
+        }
+
+        tvArtiste.setText(temp.toString());
 
         tvTitre.setText(audioModelList.get(position).getTitre());
-        //tvArtiste.setText(audioModelList.get(position).getArtistes());
+
         ivAudioIcon.setImageResource(R.drawable.bubblegumkk);
 
         return convertView;

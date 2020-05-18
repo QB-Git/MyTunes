@@ -11,7 +11,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.nolin.mytunes.MusiqueAdapter;
+import com.nolin.mytunes.ui.MusiqueAdapter;
 import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioEtImages;
 import com.nolin.mytunes.models.AudioModel;
