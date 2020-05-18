@@ -1,16 +1,21 @@
 package com.nolin.mytunes.fragments;
 
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.nolin.mytunes.AudioPlayer;
 import com.nolin.mytunes.ui.MusiqueAdapter;
 import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioEtImages;
@@ -22,13 +27,19 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
-
+    private String url_all_musiques = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
+    private String url_titre_musiques = "https://mytunes20200429155409.azurewebsites.net/api/Musiques/recherche/titre/";
     private ListView lvMusiques;
     private TextInputEditText tiRecherche;
     private ImageButton buttonRecherche;
     private View myView;
     private MusiqueAdapter adapter;
+    private MediaPlayer mediaPlayer;
+    private List<AudioModel> musiques;
+
+    public SearchFragment(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,25 +52,34 @@ public class SearchFragment extends Fragment {
         buttonRecherche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tiRecherche.getText().equals("")){
-                    new ConnectionRecherche(SearchFragment.this).execute(URL_TO_HIT);
+                String recherche =tiRecherche.getText().toString();
+                if (recherche.isEmpty()){
+                    new ConnectionRecherche(SearchFragment.this).execute(url_all_musiques);
                 } else {
-                    String[] urls = {URL_TO_HIT, tiRecherche.getText().toString()};
-                    new ConnectionRecherche(SearchFragment.this).execute(urls);
+
+                    new ConnectionRecherche(SearchFragment.this).execute(url_titre_musiques+recherche);
                 }
-
                 }});
-
+        lvMusiques.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e("MediaPlyer", "onItemClickListener");
+                AudioPlayer.beginAudio(getContext(), Uri.parse(musiques.get(i).getURL()));
+            }
+        });
         return myView;
     }
 
     public void updateAdapter(ArrayList<AudioEtImages> object){
         List<AudioModel> audios = new ArrayList<>();
         List<Bitmap> images = new ArrayList<>();
-        for(int i=0; i<object.size(); i++){
-            audios.add(object.get(i).getMusique());
-            images.add(object.get(i).getImage());
+        if (object != null){
+            for(int i=0; i<object.size(); i++){
+                audios.add(object.get(i).getMusique());
+                images.add(object.get(i).getImage());
+            }
         }
+        this.musiques = audios;
         adapter = new MusiqueAdapter(getContext(), R.layout.recherche_row, audios,images);
         lvMusiques.setAdapter(adapter);
         adapter.notifyDataSetChanged();

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new LibraryFragment(mMediaPlayer);
                         break;
                     case R.id.nav_search:
-                        selectedFragment = new SearchFragment();
+                        selectedFragment = new SearchFragment(mMediaPlayer);
                         break;
                     case R.id.nav_user:
                         selectedFragment = new UserFragment();
