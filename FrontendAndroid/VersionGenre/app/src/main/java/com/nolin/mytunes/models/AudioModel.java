@@ -2,15 +2,16 @@ package com.nolin.mytunes.models;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AudioModel{
+public class AudioModel implements Serializable {
     private int id_musique;
     private String url;
     private String titre;
     private PochetteModel pochette;
-    private ArrayList<Artistes> artistes;
+    private ArrayList<JSONArtiste> artistes;
     private String langue;
 
     public AudioModel(int id_musique, String url, String titre, PochetteModel pochette, String langue) {
@@ -62,18 +63,18 @@ public class AudioModel{
     }
 
     public void AfficherArtistes() {
-        for (Artistes artiste : artistes) {
+        for (JSONArtiste artiste : artistes) {
             Log.i("AUDIO MODEL",artiste.toString());
         }
     }
 
-    public ArrayList<Artistes> getArtistes(){return artistes;}
+    public ArrayList<JSONArtiste> getArtistes(){return artistes;}
 
-    public void setArtiste(int position, Artistes artiste){
+    public void setArtiste(int position, JSONArtiste artiste){
         artistes.set(position, artiste);
     }
 
-    public Artistes getArtiste(int position){
+    public JSONArtiste getArtiste(int position){
         return artistes.get(position);
     }
 

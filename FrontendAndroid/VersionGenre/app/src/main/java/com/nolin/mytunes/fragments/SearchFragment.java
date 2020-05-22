@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.nolin.mytunes.ui.MusiqueAdapter;
 import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioEtImages;
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
+    private final String URL_TO_HIT = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
 
     private ListView lvMusiques;
-    private TextInputEditText tiRecherche;
+    private EditText tiRecherche;
     private ImageButton buttonRecherche;
     private View myView;
     private MusiqueAdapter adapter;
@@ -38,17 +38,7 @@ public class SearchFragment extends Fragment {
         tiRecherche = myView.findViewById(R.id.tiRecherche);
         buttonRecherche = myView.findViewById(R.id.buttonRecherche);
 
-        buttonRecherche.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (tiRecherche.getText().equals("")){
-                    new ConnectionRecherche(SearchFragment.this).execute(URL_TO_HIT);
-                } else {
-                    String[] urls = {URL_TO_HIT, tiRecherche.getText().toString()};
-                    new ConnectionRecherche(SearchFragment.this).execute(urls);
-                }
-
-                }});
+        new ConnectionRecherche(this).execute(URL_TO_HIT);
 
         return myView;
     }

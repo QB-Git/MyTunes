@@ -6,22 +6,22 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.nolin.mytunes.HomeFragment"
+        android:name="com.nolin.mytunes.fragments.HomeFragment"
         android:label="Accueil"
         tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.nolin.mytunes.SearchFragment"
+        android:name="com.nolin.mytunes.fragments.SearchFragment"
         android:label="Recherche"
         tools:layout="@layout/fragment_search"/>
     <fragment
         android:id="@+id/navigation_library"
-        android:name="com.nolin.mytunes.LibraryFragment"
+        android:name="com.nolin.mytunes.fragments.LibraryFragment"
         android:label="Bibliothèque"
         tools:layout="@layout/fragment_library"/>
     <fragment
         android:id="@+id/navigation_user"
-        android:name="com.nolin.mytunes.UserFragment"
+        android:name="com.nolin.mytunes.fragments.UserFragment"
         android:label="Connexion"
         tools:layout="@layout/fragment_user"/>
 

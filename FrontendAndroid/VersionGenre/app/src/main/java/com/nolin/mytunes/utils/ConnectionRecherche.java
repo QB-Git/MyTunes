@@ -38,9 +38,6 @@ public class ConnectionRecherche extends AsyncTask<String, String, ArrayList<Aud
         try {
             URL url = new URL(urls[0]);
             connection = (HttpURLConnection) url.openConnection();
-            if(urls[1] != null && !urls[1].isEmpty()){
-                connection.setRequestProperty("recherche", urls[1]);
-            }
             connection.connect();
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));

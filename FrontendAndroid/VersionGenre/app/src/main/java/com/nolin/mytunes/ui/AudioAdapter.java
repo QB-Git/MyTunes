@@ -1,7 +1,6 @@
 package com.nolin.mytunes.ui;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.nolin.mytunes.R;
-import com.nolin.mytunes.models.Artistes;
+import com.nolin.mytunes.models.JSONArtiste;
 import com.nolin.mytunes.models.AudioModel;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class AudioAdapter extends ArrayAdapter {
 
         StringBuilder temp = new StringBuilder();
 
-        Artistes current;
+        JSONArtiste current;
         for(int i=0 ; i<audioModelList.get(position).getArtistes().size(); i++){
             current= audioModelList.get(position).getArtiste(i);
             if (current.getArtiste().getPrenom()!=null)
