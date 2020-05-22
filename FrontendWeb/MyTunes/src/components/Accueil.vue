@@ -5,7 +5,7 @@
         <div class="ui four column grid cards-container">
             <div class="col" v-for="(item, x) in dataContent" :key="x">
                 <div class="card">
-                    <img v-bind:src="item.img">
+                    <img :src="item.img">
                     <div class="content">
                         <div class="header">{{item.musique}}</div>
                         <div class="meta">{{item.artiste}}</div>
@@ -29,47 +29,36 @@
 
     export default {
         data() {
-                return {
-                  dataContent: [
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique1', artiste: 'Artiste1'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique2', artiste: 'Artiste2'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique3', artiste: 'Artiste3'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique4', artiste: 'Artiste4'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique5', artiste: 'Artiste5'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique6', artiste: 'Artiste6'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique7', artiste: 'Artiste7'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique8', artiste: 'Artiste8'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique9', artiste: 'Artiste9'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique10', artiste: 'Artiste10'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique11', artiste: 'Artiste11'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique12', artiste: 'Artiste12'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique13', artiste: 'Artiste13'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique14', artiste: 'Artiste14'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique15', artiste: 'Artiste15'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique16', artiste: 'Artiste16'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique17', artiste: 'Artiste17'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique18', artiste: 'Artiste18'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique19', artiste: 'Artiste19'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique20', artiste: 'Artiste20'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique21', artiste: 'Artiste21'},
-                   {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique22', artiste: 'Artiste22'},
-                   {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique23', artiste: 'Artiste23'}
-                  ]
-                }
+            return {
+                dataContent: [
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique1', artiste: 'Artiste1'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique2', artiste: 'Artiste2'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique3', artiste: 'Artiste3'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique4', artiste: 'Artiste4'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique5', artiste: 'Artiste5'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique6', artiste: 'Artiste6'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique7', artiste: 'Artiste7'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique8', artiste: 'Artiste8'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique9', artiste: 'Artiste9'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique10', artiste: 'Artiste10'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique11', artiste: 'Artiste11'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique12', artiste: 'Artiste12'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique13', artiste: 'Artiste13'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique14', artiste: 'Artiste14'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique15', artiste: 'Artiste15'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique16', artiste: 'Artiste16'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique17', artiste: 'Artiste17'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique18', artiste: 'Artiste18'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique19', artiste: 'Artiste19'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique20', artiste: 'Artiste20'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique21', artiste: 'Artiste21'},
+                    {img: 'https://semantic-ui.com/examples/assets/images/wireframe/image.png', musique: 'Musique22', artiste: 'Artiste22'},
+                    {img: 'https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg', musique: 'Musique23', artiste: 'Artiste23'}
+                ]
+            }
         },
         mounted () {
 
-            // axios.get('https://mytunes20200429155409.azurewebsites.net/api/Genres')
-            //     .then(function (response) {
-            //
-            // 		console.log(response.data[0].id_genre, response.data[0].genre, response.data[0].musiques);
-            // 		console.log('response is : ' + response.data);
-            // 	}).catch(function (error) {
-            //         if (error.response) console.log(error.response.headers);
-            //         else if (error.request) console.log(error.request);
-            //         else console.log(error.message);
-            //         console.log(error.config);
-            // });
         }
     }
 </script>

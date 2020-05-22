@@ -1,11 +1,13 @@
 <template>
     <div class="LecteurAudio">
-        <audio :src="source" preload="metadata"></audio>
-        <span class="picture">image album</span>
+        <audio :src="laudio_source" preload="metadata"></audio>
+        <span class="picture">
+            <img :src="laudio_pochette" alt="Pas de pochette">
+        </span>
         <div class="infos-musiques">
-            <span class="album">The New Horizon of Earth</span>
-            <span class="artiste">Jean-Pierre Leroux</span>
-            <span class="piste">Ceci n'est pas une chanson</span>
+            <span class="album">{{ laudio_album }}</span>
+            <span class="artiste">{{ laudio_artiste }}</span>
+            <span class="piste">{{ laudio_titre }}</span>
         </div>
         <div class="lecteur">
             <div class="controls">
@@ -28,14 +30,34 @@ import $ from 'jquery'
 export default {
     name: 'LecteurAudio',
     props: {
-        sourceAudio: {
+        source: {
             type: String,
             default: '//www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3'
+        },
+        pochette: {
+            type: String,
+            default: ''
+        },
+        titre: {
+            type: String,
+            default: 'Titre inconnu'
+        },
+        artiste: {
+            type: String,
+            default: 'Artiste inconnu'
+        },
+        album: {
+            type: String,
+            default: 'Album inconnu'
         }
     },
     data () {
         return {
-            source: this.sourceAudio,
+            laudio_source: this.source,
+            laudio_pochette: this.pochette,
+            laudio_titre: this.titre,
+            laudio_artiste: this.artiste,
+            laudio_album: this.album,
             precedent: getSvg('step-backward'),
             suivant: getSvg('step-forward'),
             boolPlay: false,
@@ -44,7 +66,7 @@ export default {
         }
     },
     methods: {
-        changePlayPause: function() {
+        changePlayPause() {
             let audio = $('audio')[0];
             if(!isNaN(audio.duration)) {
                 $("#progress-bar").slider("option", "max", (+($('audio')[0].duration.toFixed(2))));
@@ -65,12 +87,21 @@ export default {
         }
     },
     computed: {
-        changeSvgPlayPause: function() {
+        changeSvgPlayPause() {
             if(this.boolPlay) return getSvg('pause');
             else return getSvg('play');
         }
     },
     mounted() {
+        this.$root.$on('changeMusic', (musique) => { // here you need to use the arrow function
+            console.log(musique)
+            this.laudio_source = musique.url;
+            this.laudio_pochette = musique.pochette;
+            this.laudio_titre = musique.titre;
+            this.laudio_artiste = musique.artiste;
+            this.laudio_album = musique.album;
+        });
+
         console.log(+($('audio')[0].duration.toFixed(2)));
         this.progressBar = $("#progress-bar").slider({
             value: 0,
@@ -138,6 +169,12 @@ export default {
     .picture {
         height: var(--lecteur-audio-height);
         width: var(--menu-width);
+    }
+
+    .picture img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
     }
 
     .infos-musiques {
