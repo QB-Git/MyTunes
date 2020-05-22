@@ -31,21 +31,15 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_home, container, false);
+
+
         return myView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        tvAlbum = myView.findViewById(R.id.album);
         tvTitre = myView.findViewById(R.id.titre);
-        tvArtiste = myView.findViewById(R.id.artiste);
-
-        ibPrevious = myView.findViewById(R.id.ib_previous);
-        ibPlay = myView.findViewById(R.id.ib_play);
-        ibNext = myView.findViewById(R.id.ib_next);
 
         Bundle bundle = getArguments();
         Log.i( "TEST PASSAGE BUNDLE", "HomeFragment.onViewCreated() : Get du bundle");

@@ -1,4 +1,5 @@
 package com.nolin.mytunes.fragments;
+
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +33,6 @@ public class LibraryFragment extends Fragment {
     private ArrayList<AudioModel> object;
     public static Uri uri;
 
-
     public LibraryFragment(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
     }
@@ -58,6 +58,15 @@ public class LibraryFragment extends Fragment {
                     bundle.putSerializable("libraryFragment_morceauCourant", object.get(i));
                     Log.i( "TEST PASSAGE BUNDLE", "onItemClick() : Apres ajout audioModel");
                 }
+
+
+                //iLibraryFragment.onMusiqueClick(object.get(i));
+
+                //envoi des données au fragment_home
+                /*Bundle bundle = new Bundle();
+                bundle.putSerializable("tag", object.get(i));*/
+
+
             }
         });
         return myView;
@@ -83,4 +92,16 @@ public class LibraryFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+
+    /*
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try{
+            iLibraryFragment = (ILibraryFragment)getActivity();
+        } catch (ClassCastException e){
+            throw new ClassCastException("Error, bah yes ça ne marche pas");
+        }
+    }
+    */
 }
