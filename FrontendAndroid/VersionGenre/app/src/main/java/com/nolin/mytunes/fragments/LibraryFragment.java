@@ -1,7 +1,4 @@
 package com.nolin.mytunes.fragments;
-
-import android.app.Activity;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,13 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
 
 import com.nolin.mytunes.AudioPlayer;
-import com.nolin.mytunes.ILibraryFragment;
 import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioModel;
 import com.nolin.mytunes.ui.AudioAdapter;
@@ -26,7 +19,6 @@ import com.nolin.mytunes.utils.Connection;
 import com.nolin.mytunes.utils.LoadingDialog;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class LibraryFragment extends Fragment {
 
@@ -40,7 +32,6 @@ public class LibraryFragment extends Fragment {
     private ArrayList<AudioModel> object;
     public static Uri uri;
 
-    ILibraryFragment iLibraryFragment;
 
     public LibraryFragment(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
@@ -67,15 +58,6 @@ public class LibraryFragment extends Fragment {
                     bundle.putSerializable("libraryFragment_morceauCourant", object.get(i));
                     Log.i( "TEST PASSAGE BUNDLE", "onItemClick() : Apres ajout audioModel");
                 }
-
-
-                //iLibraryFragment.onMusiqueClick(object.get(i));
-
-                //envoi des données au fragment_home
-                /*Bundle bundle = new Bundle();
-                bundle.putSerializable("tag", object.get(i));*/
-
-
             }
         });
         return myView;
@@ -101,16 +83,4 @@ public class LibraryFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-
-    /*
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        try{
-            iLibraryFragment = (ILibraryFragment)getActivity();
-        } catch (ClassCastException e){
-            throw new ClassCastException("Error, bah yes ça ne marche pas");
-        }
-    }
-    */
 }
