@@ -19,11 +19,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="93dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/ti_passwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mot de passe" />
+                    android:hint="Mot de passe"
+                    android:inputType="textPassword" />
 
                 <Button
                     android:id="@+id/button_co"
@@ -33,7 +34,7 @@
                     android:text="Connexion" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/ti_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

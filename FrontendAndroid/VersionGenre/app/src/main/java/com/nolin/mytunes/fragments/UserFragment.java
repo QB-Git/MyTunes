@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -38,8 +39,8 @@ import java.util.Objects;
 public class UserFragment extends Fragment {
 
     private ListView lv_fav;
-    private TextInputEditText ti_user;
-    private TextInputEditText ti_passwd;
+    private EditText ti_user;
+    private EditText ti_passwd;
     private TextInputLayout til_un;
     private TextInputLayout til_deux;
     private Button button_co;
