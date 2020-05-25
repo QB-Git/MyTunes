@@ -1,5 +1,4 @@
 package com.nolin.mytunes.fragments;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,15 +26,9 @@ public class LibraryFragment extends Fragment {
     private ListView lvAudio;
     private View myView;
     private AudioAdapter adapter;
-    private MediaPlayer mediaPlayer;
 
     private ArrayList<AudioModel> object;
     public static Uri uri;
-
-
-    public LibraryFragment(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +42,7 @@ public class LibraryFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("MediaPlayer", "onItemClickListener");
                 uri = Uri.parse(object.get(i).getURL());
-                AudioPlayer.beginAudio(getContext(), uri);
+                AudioPlayer.start(getContext(), uri);
                 Log.i( "TEST PASSAGE BUNDLE", "onItemClick() : Récupération du bundle");
                 Bundle bundle = getArguments();
 

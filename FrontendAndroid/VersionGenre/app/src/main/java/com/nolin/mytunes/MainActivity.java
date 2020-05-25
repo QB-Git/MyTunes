@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mMediaPlayer = MediaPlayer.create(this, Uri.parse("https://drive.google.com/uc?id=1pQGaaCz1KkAPxz5tmvzNQLeMTzDpNas6"));
-
         bundle = new Bundle();
         bottomNav = findViewById(R.id.nav_view);
         final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_library:
                         loadingDialog.startLoadingDialog();
-                        selectedFragment = new LibraryFragment(mMediaPlayer);
+                        selectedFragment = new LibraryFragment(/*mMediaPlayer*/);
                         bundle.putSerializable("mainActivity_loadingDialog", loadingDialog);
                         selectedFragment.setArguments( bundle );
                         Log.i( "TEST PASSAGE BUNDLE", "mainActivity.onCreate() : Set du bundle lib");

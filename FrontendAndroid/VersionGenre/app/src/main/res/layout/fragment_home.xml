@@ -11,18 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="BUBBLEGUM KK"
+        android:text="BEST OF KK"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/imageView"
+        app:layout_constraintBottom_toTopOf="@id/pochette"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/pochette"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,9 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Titre"
-        android:textSize="22sp"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        android:text="Bubblugum Kéké"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/pochette"
         app:layout_constraintBottom_toTopOf="@id/artiste"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -50,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Artiste"
+        android:text="Kéké"
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/titre"
         app:layout_constraintBottom_toTopOf="@id/seekBar"
@@ -113,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
-            android:src="@drawable/ic_play" />
+            android:src="@drawable/ic_pause" />
 
         <ImageButton
             android:id="@+id/ib_next"

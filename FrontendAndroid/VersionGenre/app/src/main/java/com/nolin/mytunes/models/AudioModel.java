@@ -10,9 +10,13 @@ public class AudioModel implements Serializable {
     private int id_musique;
     private String url;
     private String titre;
-    private PochetteModel pochette;
-    private ArrayList<JSONArtiste> artistes;
     private String langue;
+
+    private PochetteModel pochette;
+
+    private ArrayList<JSONArtiste> artistes;
+    private ArrayList<JSONAlbum> albums;
+
 
     public AudioModel(int id_musique, String url, String titre, PochetteModel pochette, String langue) {
         this.id_musique = id_musique;
@@ -69,14 +73,22 @@ public class AudioModel implements Serializable {
     }
 
     public ArrayList<JSONArtiste> getArtistes(){return artistes;}
-
+    public JSONArtiste getArtiste(int position){
+        return artistes.get(position);
+    }
     public void setArtiste(int position, JSONArtiste artiste){
         artistes.set(position, artiste);
     }
 
-    public JSONArtiste getArtiste(int position){
-        return artistes.get(position);
+
+    public ArrayList<JSONAlbum> getAlbums(){return albums;}
+    public JSONAlbum getAlbum(int position){
+        return albums.get(position);
     }
+    public void setAlbums(int position, JSONAlbum album){
+        albums.set(position, album);
+    }
+
 
 
     @Override

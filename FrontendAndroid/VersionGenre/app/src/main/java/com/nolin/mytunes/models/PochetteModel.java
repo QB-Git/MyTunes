@@ -27,17 +27,5 @@ public class PochetteModel {
         this.img_pochette = img_pochette;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PochetteModel that = (PochetteModel) o;
-        return id_pochette == that.id_pochette &&
-                Objects.equals(img_pochette, that.img_pochette);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_pochette, img_pochette);
-    }
 }
