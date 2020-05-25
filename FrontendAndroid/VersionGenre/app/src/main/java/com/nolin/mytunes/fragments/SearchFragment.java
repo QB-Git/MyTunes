@@ -56,7 +56,8 @@ public class SearchFragment extends Fragment {
 
                     new ConnectionRecherche(SearchFragment.this).execute(url_titre_musiques+recherche);
                 }
-            }});
+            }
+		});
         lvMusiques.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,6 +79,7 @@ public class SearchFragment extends Fragment {
         }
         this.musiques = audios;
         adapter = new MusiqueAdapter(getContext(), R.layout.row, audios,images);
+
         lvMusiques.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

@@ -1,53 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/fragment_background">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_deux"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_un"
-                android:layout_width="match_parent"
-                android:layout_height="93dp">
-
-                <EditText
-                    android:id="@+id/ti_passwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mot de passe"
-                    android:inputType="textPassword" />
-
-                <Button
-                    android:id="@+id/button_co"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Connexion" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <EditText
-                android:id="@+id/ti_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nom d'utilisateur" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ListView
-            android:id="@+id/lv_fav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-</RelativeLayout>-->
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -99,8 +50,6 @@
             app:layout_constraintTop_toBottomOf="@id/etPasswd" />
 
 
-
-
     </LinearLayout>
 
     <ListView
@@ -113,3 +62,4 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

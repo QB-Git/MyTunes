@@ -65,7 +65,6 @@ public class UserFragment extends Fragment {
 
         layout = myView.findViewById(R.id.layout);
 
-
         button_co.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +76,6 @@ public class UserFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("MediaPlyer", "onItemClickListener");
                 AudioPlayer.start(getContext(),Uri.parse(musiques.get(i).getURL()));
-                //AudioPlayer.beginAudio(getContext(), Uri.parse(musiques.get(i).getURL()));
             }
         });
         return myView;
@@ -117,8 +115,6 @@ public class UserFragment extends Fragment {
         adapter = new MusiqueAdapter(getContext(), R.layout.row, audios,images);
         lv_fav.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
         layout.setVisibility(View.GONE);
-
     }
 }

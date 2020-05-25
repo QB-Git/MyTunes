@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.nolin.mytunes.fragments.UserFragment;
 import com.nolin.mytunes.models.AudioEtImages;
 import com.nolin.mytunes.models.AudioModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,8 +36,7 @@ public class ConnectionMusiqueId extends AsyncTask<String, String, ArrayList<Aud
         try {
             ArrayList<AudioEtImages> audioModelList = new ArrayList<>();
 
-            for (String url_transforme: urls
-            ) {
+            for (String url_transforme: urls) {
                 URL url = new URL(url_transforme);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
