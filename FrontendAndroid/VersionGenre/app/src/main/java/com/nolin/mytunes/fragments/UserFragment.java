@@ -18,22 +18,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.nolin.mytunes.AudioPlayer;
+import com.nolin.mytunes.MainActivity;
 import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioEtImages;
 import com.nolin.mytunes.models.AudioModel;
 import com.nolin.mytunes.models.UserModel;
-import com.nolin.mytunes.ui.AudioAdapter;
 import com.nolin.mytunes.ui.MusiqueAdapter;
 import com.nolin.mytunes.utils.ConnectionMusiqueId;
-import com.nolin.mytunes.utils.ConnectionRecherche;
 import com.nolin.mytunes.utils.ConnectionUser;
-import com.nolin.mytunes.utils.LoadingDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,16 +37,23 @@ public class UserFragment extends Fragment {
     private ListView lv_fav;
     private EditText ti_user;
     private EditText ti_passwd;
-    private LinearLayout layout;
+    private LinearLayout layoutConnexion;
+    private LinearLayout layoutDeconnexion;
     private Button button_co;
+    private Button button_deco;
     private View myView;
     private MusiqueAdapter adapter;
-    private MediaPlayer mediaPlayer;
     private List<UserModel> users;
     private List<AudioModel> musiques;
     private UserModel good_user;
+    MainActivity ma;
 
     private String url_users = "https://mytunes20200429155409.azurewebsites.net/api/Users";
+
+    public UserFragment(MainActivity ma, UserModel user){
+        good_user = user;
+        this.ma = ma;
+    }
 
     @Nullable
     @Override
@@ -62,14 +64,36 @@ public class UserFragment extends Fragment {
         ti_user = myView.findViewById(R.id.etUser);
         ti_passwd = myView.findViewById(R.id.etPasswd);
         button_co = myView.findViewById(R.id.btConnexion);
+        button_deco  =myView.findViewById(R.id.btDeconnexion);
+        layoutConnexion = myView.findViewById(R.id.layout);
+        layoutDeconnexion = myView.findViewById(R.id.layoutDeco);
 
-        layout = myView.findViewById(R.id.layout);
+        if(good_user != null){
+            layoutConnexion.setVisibility(View.GONE);
+            layoutDeconnexion.setVisibility(View.VISIBLE);
+            getMusiquesFromPlaylist();
+        } else {
+            layoutConnexion.setVisibility(View.VISIBLE);
+            layoutDeconnexion.setVisibility(View.GONE);
+        }
 
         button_co.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new ConnectionUser(UserFragment.this).execute(url_users);
             }});
+
+        button_deco.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ma.resetUser();
+                layoutConnexion.setVisibility(View.VISIBLE);
+                layoutDeconnexion.setVisibility(View.GONE);
+                musiques = new ArrayList<>();
+                ti_user.setText(null);
+                ti_passwd.setText(null);
+                lv_fav.setAdapter(null);
+            }
+        });
 
         lv_fav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,18 +112,23 @@ public class UserFragment extends Fragment {
                     users.get(i).getPassword().equals(Objects.requireNonNull(ti_passwd.getText()).toString())){
                 good_user = users.get(i);
                 i = users.size();
-                ArrayList<String> test = new ArrayList<>();
-                for(int j=0; j<good_user.getPlaylist().size(); j++){
-                    test.add("https://mytunes20200429155409.azurewebsites.net/api/Musiques/"+good_user.getPlaylist().get(j).getId_musique());
-                }
-                /*
-                WARNING, c'est pas ouf mais j'ai pas mieux hein
-                 */
-                String[] urls = new String[test.size()];
-                urls = test.toArray(urls);
-                new ConnectionMusiqueId(UserFragment.this).execute(urls);
+                ma.updateUser(good_user);
+                getMusiquesFromPlaylist();
             }
         }
+    }
+
+    private void getMusiquesFromPlaylist(){
+        ArrayList<String> pourAffichage = new ArrayList<>();
+        for(int j=0; j<good_user.getPlaylist().size(); j++){
+            pourAffichage.add("https://mytunes20200429155409.azurewebsites.net/api/Musiques/"+good_user.getPlaylist().get(j).getId_musique());
+        }
+        /*
+        WARNING, c'est pas ouf mais j'ai pas mieux hein
+        */
+        String[] urls = new String[pourAffichage.size()];
+        urls = pourAffichage.toArray(urls);
+        new ConnectionMusiqueId(UserFragment.this).execute(urls);
     }
 
     public void updateAdapter(ArrayList<AudioEtImages> object){
@@ -115,6 +144,7 @@ public class UserFragment extends Fragment {
         adapter = new MusiqueAdapter(getContext(), R.layout.row, audios,images);
         lv_fav.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        layout.setVisibility(View.GONE);
+        layoutConnexion.setVisibility(View.GONE);
+        layoutDeconnexion.setVisibility(View.VISIBLE);
     }
 }
