@@ -17,7 +17,7 @@ namespace MyTunes.Controllers
 
         // GET: api/Users?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUSER([FromHeader] string recherche)
+        public async Task<ActionResult<IEnumerable<User>>> GetUSER()
         {
             var users = await _context.USER
                 .Include(a => a.notes)
@@ -26,10 +26,23 @@ namespace MyTunes.Controllers
                     //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
                 .ToListAsync();
 
-            if (!string.IsNullOrEmpty(recherche))
-            {
-                return Ok(users.Where(s => s.pseudo.ToLower().Contains(recherche.ToLower())));
-            }
+            
+                //return Ok(users.Where(s => s.pseudo.ToLower().Contains(recherche.ToLower())));
+
+
+            return Ok(users);
+        }
+        
+        [HttpGet("recherche/{recherche}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUSERRecherche(string recherche)
+        {
+            var users = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(s => s.pseudo.ToLower().Contains(recherche.ToLower()))
+                .ToListAsync();
 
             return Ok(users);
         }
