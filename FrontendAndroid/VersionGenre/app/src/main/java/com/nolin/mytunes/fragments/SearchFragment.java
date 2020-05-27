@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -30,16 +31,12 @@ public class SearchFragment extends Fragment {
     private String url_all_musiques = "https://mytunes20200429155409.azurewebsites.net/api/Musiques";
     private String url_titre_musiques = "https://mytunes20200429155409.azurewebsites.net/api/Musiques/recherche/titre/";
     private ListView lvMusiques;
-    private TextInputEditText tiRecherche;
+    private EditText tiRecherche;
     private ImageButton buttonRecherche;
     private View myView;
     private MusiqueAdapter adapter;
     private MediaPlayer mediaPlayer;
     private List<AudioModel> musiques;
-
-    public SearchFragment(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,12 +56,13 @@ public class SearchFragment extends Fragment {
 
                     new ConnectionRecherche(SearchFragment.this).execute(url_titre_musiques+recherche);
                 }
-                }});
+            }
+		});
         lvMusiques.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("MediaPlyer", "onItemClickListener");
-                AudioPlayer.beginAudio(getContext(), Uri.parse(musiques.get(i).getURL()));
+                AudioPlayer.start(getContext(), Uri.parse(musiques.get(i).getURL()));
             }
         });
         return myView;
@@ -80,7 +78,8 @@ public class SearchFragment extends Fragment {
             }
         }
         this.musiques = audios;
-        adapter = new MusiqueAdapter(getContext(), R.layout.recherche_row, audios,images);
+        adapter = new MusiqueAdapter(getContext(), R.layout.row, audios,images);
+
         lvMusiques.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

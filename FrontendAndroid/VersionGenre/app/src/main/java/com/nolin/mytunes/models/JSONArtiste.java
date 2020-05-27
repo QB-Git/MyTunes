@@ -2,7 +2,7 @@ package com.nolin.mytunes.models;
 
 
 // Un AudioModel a une liste d'Artistes
-public class Artistes {
+public class JSONArtiste {
     private int id_artiste;
     private ArtisteModel artiste;
     private int id_musique;

@@ -1,6 +1,5 @@
 package com.nolin.mytunes.fragments;
 
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +16,7 @@ import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioModel;
 import com.nolin.mytunes.ui.AudioAdapter;
 import com.nolin.mytunes.utils.Connection;
+import com.nolin.mytunes.utils.LoadingDialog;
 
 import java.util.ArrayList;
 
@@ -27,14 +27,10 @@ public class LibraryFragment extends Fragment {
     private ListView lvAudio;
     private View myView;
     private AudioAdapter adapter;
-    private MediaPlayer mediaPlayer;
 
     private ArrayList<AudioModel> object;
     public static Uri uri;
 
-    public LibraryFragment(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,9 +42,26 @@ public class LibraryFragment extends Fragment {
         lvAudio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("MediaPlyer", "onItemClickListener");
+                Log.e("MediaPlayer", "onItemClickListener");
                 uri = Uri.parse(object.get(i).getURL());
-                AudioPlayer.beginAudio(getContext(), uri);
+                AudioPlayer.start(getContext(), uri);
+                Log.i( "TEST PASSAGE BUNDLE", "onItemClick() : Récupération du bundle");
+                Bundle bundle = getArguments();
+
+                if( bundle != null )
+                {
+                    bundle.putSerializable("libraryFragment_morceauCourant", object.get(i));
+                    Log.i( "TEST PASSAGE BUNDLE", "onItemClick() : Apres ajout audioModel");
+                }
+
+
+                //iLibraryFragment.onMusiqueClick(object.get(i));
+
+                //envoi des données au fragment_home
+                /*Bundle bundle = new Bundle();
+                bundle.putSerializable("tag", object.get(i));*/
+
+
             }
         });
         return myView;
@@ -58,6 +71,32 @@ public class LibraryFragment extends Fragment {
         this.object = object;
         adapter = new AudioAdapter(getContext(), R.layout.row, object);
         lvAudio.setAdapter(adapter);
+        Bundle bundle = getArguments();
+
+        if( bundle != null )
+        {
+            LoadingDialog loadingDialog = (LoadingDialog)bundle.getSerializable("mainActivity_loadingDialog");
+
+            if( loadingDialog != null )
+            {
+                loadingDialog.dismissDialog();
+            }
+
+        }
+
         adapter.notifyDataSetChanged();
     }
+
+
+    /*
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try{
+            iLibraryFragment = (ILibraryFragment)getActivity();
+        } catch (ClassCastException e){
+            throw new ClassCastException("Error, bah yes ça ne marche pas");
+        }
+    }
+    */
 }

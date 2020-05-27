@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import com.nolin.mytunes.models.Artistes;
+import com.nolin.mytunes.models.JSONArtiste;
 import com.nolin.mytunes.models.AudioModel;
 import com.nolin.mytunes.R;
 import java.util.List;
@@ -39,15 +39,16 @@ public class MusiqueAdapter extends ArrayAdapter {
             convertView = LayoutInflater.from(getContext()).inflate(ressource, null);
         }
 
-        ivPochette = convertView.findViewById(R.id.ivPochette_recherche);
-        tvMusique = convertView.findViewById(R.id.tvMusique);
-        tvArtiste = convertView.findViewById(R.id.tvArtiste_recherche);
+        ivPochette = convertView.findViewById(R.id.ivPochette);
+        tvMusique = convertView.findViewById(R.id.tvTitre);
+        tvArtiste = convertView.findViewById(R.id.tvArtiste);
+
         tvMusique.setText(musiqueModelList.get(position).getTitre());
         ivPochette.setImageBitmap(imageList.get(position));
 
         StringBuilder temp = new StringBuilder();
 
-        Artistes current;
+        JSONArtiste current;
         for(int i=0 ; i<musiqueModelList.get(position).getArtistes().size(); i++){
             current= musiqueModelList.get(position).getArtiste(i);
             if (current.getArtiste().getPrenom()!=null)
