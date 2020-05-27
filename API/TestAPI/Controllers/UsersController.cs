@@ -142,7 +142,7 @@ namespace MyTunes.Controllers
         [HttpPost("playlist/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylist(int id, 
             [FromBody] IEnumerable<int> musiques, 
-            [FromHeader] string nom = "Favoris", [FromHeader] System.Boolean publique = false)
+            string nom = "Favoris", System.Boolean publique = false)
         {
             if (!UserExists(id))
             {
@@ -187,7 +187,7 @@ namespace MyTunes.Controllers
         // Ajoute une note à la musique voulu
         [HttpPost("notes/{id}")]
         public async Task<ActionResult<User>> PostUserNotes(int id, 
-            [FromHeader] int note, [FromHeader] int musique)
+            int note, int musique)
         {
             if (!UserExists(id))
             {
@@ -226,7 +226,7 @@ namespace MyTunes.Controllers
         // PUT: api/Users/playlist/5?musique=id&nom="nom_playlist"
         [HttpPut("playlist/{id}")]
         public async Task<ActionResult<User>> PutUserPlaylist(int id,
-            [FromHeader] int musique, [FromHeader] string nom_playlist)
+            int musique, string nom_playlist)
         {
             if (!UserExists(id))
             {
@@ -260,7 +260,7 @@ namespace MyTunes.Controllers
 
         // DELETE: api/Users/playlist/5?nom="nom_playlist"
         [HttpDelete("playlist/{id}")]
-        public async Task<ActionResult<User>> DeleteUserPlaylist(int id, [FromHeader] string nom_playlist)
+        public async Task<ActionResult<User>> DeleteUserPlaylist(int id, string nom_playlist)
         {
             if (!UserExists(id))
             {
@@ -338,7 +338,7 @@ namespace MyTunes.Controllers
         // Copie une playlist d'un autre utilisateur id_user 
         [HttpPost("playlist/copy/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylistCopie(int id,
-            [FromHeader] string nom, [FromHeader] int user)
+            string nom, int user)
         {
             if (!UserExists(id))
             {
@@ -399,7 +399,7 @@ namespace MyTunes.Controllers
         // POST : api/Users/playlist/import/1?album=id_album
         // Importe l'album en playlist nommé "playlist"+nom_album
         [HttpPost("playlist/import/{id}")]
-        public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, [FromHeader] int album)
+        public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, int album)
         {
             if (!UserExists(id))
             {
