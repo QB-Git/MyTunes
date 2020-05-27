@@ -1,18 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Accueil from '@/components/Accueil'
-import Profil from '@/components/Profil'
 import Recherche from '@/components/Recherche'
 import MesPlaylists from '@/components/MesPlaylists'
-
-
-
-
-// import HelloWorld from '@/components/HelloWorld'
-// import Menu from '@/components/Menu'
-// import PageA from '@/components/PageA'
-// import PageC from '@/components/PageC'
-// import Accueil from '@/components/Accueil'
+import Connexion from '@/components/Connexion'
 
 Vue.use(Router)
 
@@ -24,15 +15,15 @@ const router = new Router({
             component: Accueil,
             meta: {title: 'MyTunes'}
         }, {
-            path: '/profil',
-            name: 'Profil',
-            component: Profil,
-            meta: {title: 'MyTunes - Profil'}
-        }, {
             path: '/recherche',
             name: 'Recherche',
             component: Recherche,
             meta: {title: 'MyTunes - Recherche'}
+        }, {
+            path: '/connexion',
+            name: 'Connexion',
+            component: Connexion,
+            meta: {title: 'MyTunes - Connexion'}
         }, {
             path: '/mes-playlists',
             name: 'Mes playlists',

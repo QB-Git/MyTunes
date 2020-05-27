@@ -11,11 +11,19 @@
         </div>
         <div class="lecteur">
             <div class="controls">
-                <span class="precedent" v-html='precedent'></span>
+                <span class="precedent">
+                    <my-icon :nomSvg="'step-backward'"/>
+                </span>
                 <!-- <span class="play-pause" v-html='play' @click='changePlayPause' v-if='boolPlay'></span>
                 <span class="play-pause" v-html='pause' @click='changePlayPause' v-else></span> -->
-                <span class="play-pause" v-html='changeSvgPlayPause' @click='changePlayPause()'></span>
-                <span class="suivant" v-html='suivant'></span>
+                <!-- <span class="play-pause" v-html='changeSvgPlayPause' @click='changePlayPause()'> -->
+                <span class="play-pause" @click='changePlayPause()'>
+                    <my-icon :nomSvg="'pause'" v-if="boolPlay"/>
+                    <my-icon :nomSvg="'play'" v-else/>
+                </span>
+                <span class="suivant">
+                    <my-icon :nomSvg="'step-forward'"/>
+                </span>
             </div>
             <div id="progress-bar"></div>
         </div>
@@ -25,10 +33,13 @@
 <script>
 require('webpack-jquery-ui/slider');
 require('webpack-jquery-ui/css');
-import $ from 'jquery'
+import MyIcon from '@/components/MyIcon'
 
 export default {
     name: 'LecteurAudio',
+    components: {
+        MyIcon
+    },
     props: {
         source: {
             type: String,
@@ -58,8 +69,8 @@ export default {
             laudio_titre: this.titre,
             laudio_artiste: this.artiste,
             laudio_album: this.album,
-            precedent: getSvg('step-backward'),
-            suivant: getSvg('step-forward'),
+            // precedent: getSvg('step-backward'),
+            // suivant: getSvg('step-forward'),
             boolPlay: false,
             intervalProgressBar:'',
             progressBar:''
@@ -87,10 +98,10 @@ export default {
         }
     },
     computed: {
-        changeSvgPlayPause() {
-            if(this.boolPlay) return getSvg('pause');
-            else return getSvg('play');
-        }
+        // changeSvgPlayPause() {
+        //     if(this.boolPlay) return getSvg('pause');
+        //     else return getSvg('play');
+        // }
     },
     mounted() {
         this.$root.$on('changeMusic', (musique) => { // here you need to use the arrow function
@@ -212,7 +223,7 @@ export default {
 
     .lecteur {
         width: calc(100vw - var(--menu-width) - 20vw);
-        padding: 20px;
+        padding: 0 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
