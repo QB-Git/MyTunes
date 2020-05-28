@@ -183,6 +183,45 @@ namespace MyTunes.Controllers
             return Ok(result);
         }
 
+        // POST : api/Users/playlists/1?nom="nom"&publique=bool
+        // Ajoute une musique à la playlist nommé si elle n'existe pas la créer, sinon met en favoris par défaut
+        [HttpPost("playlist/unique/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylistUn(int id,
+            int id_musique,
+            string nom = "Favoris", System.Boolean publique = false)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            if (!MusiqueExists(id_musique))
+            {
+                return NotFound(new Erreur("Musique numéro: " + id_musique + " inexistante"));
+            }
+                if (!PlaylistExists(id, nom, id_musique))
+                {
+                    Playlist playlist = new Playlist()
+                    {
+                        id_user = id,
+                        id_musique = id_musique,
+                        nom = nom,
+                        publique = publique
+                    };
+                    _context.PLAYLIST.Add(playlist);
+                }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
         // POST : api/Users/notes/1?note=note&musique="id_musique"
         // Ajoute une note à la musique voulu
         [HttpPost("notes/{id}")]
