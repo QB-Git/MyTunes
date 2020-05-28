@@ -1,23 +1,40 @@
 <template>
     <div class="ui vertical icon menu">
-        <router-link to="/" class="item logo" v-html='logo'></router-link>
-        <router-link to="/profil" class="item" v-html='user'></router-link>
-        <router-link to="./recherche" class="item" v-html='search'></router-link>
-        <router-link to="./mes-playlists" class="item" v-html='music'></router-link>
+        <router-link to="/" class="item logo">
+            <my-icon :nomSvg="'logo'"/>
+        </router-link>
+        <router-link to="/recherche" class="item">
+            <my-icon :nomSvg="'search'"/>
+            <span>Chercher</span>
+        </router-link>
+        <router-link to="/mes-playlists" class="item" v-if="!verifUser()">
+            <my-icon :nomSvg="'music'"/>
+            <span>Playlists</span>
+        </router-link>
+        <a class="item" @click='deconnexion()' v-if="!verifUser()">
+            <my-icon :nomSvg="'sign-out'"/>
+            <span>Quitter</span>
+        </a>
     </div>
 </template>
 
 <script>
-import '../../src/js/myicon.js'
+import MyIcon from '@/components/MyIcon'
 
 export default {
     name: 'Menu',
-    data () {
-        return {
-            logo: getSvg('logo'),
-            user: getSvg('user')+'<span>Profil</span>',
-            search: getSvg('search')+'<span>Chercher</span>',
-            music: getSvg('music')+'<span>Mes playlists</span>'
+    components: {
+        MyIcon
+    },
+    methods: {
+        verifUser () {
+            return $cookies.get('user').localeCompare('invite') == 0;
+        },
+        deconnexion () {
+            $cookies.set('user', 'invite')
+            console.log("deco")
+            this.$router.push('/')
+            this.$router.go(0)
         }
     }
 }
@@ -118,13 +135,13 @@ export default {
     .ui.icon.menu .item {
         line-height: 1.5;
     }
-    .ui.icon.menu .item svg.myicon-logo {
+    .ui.icon.menu .item svg.myicon.icon-logo {
         width: 100%;
         height: min-content;
         padding: 10px;
         cursor: pointer;
     }
-    .ui.icon.menu .item svg.myicon-logo path {
+    .ui.icon.menu .item svg.myicon.icon-logo path {
         fill: rgb(255, 127, 80);
     }
 </style>

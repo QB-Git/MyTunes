@@ -4,12 +4,12 @@
         <Menu/>
         <overlay-scrollbars>
         <div class="main">
-            <div class="ui black icon message transition">
+            <div class="ui black icon message transition" v-if="$cookies.get('user').localeCompare('invite') == 0 && this.$route.path.toLowerCase() != '/connexion'">
                 <i class="close icon"></i>
                 <i class="sign-in icon"></i>
                 <div class="content">
                     <div class="header">Vous n'êtes pas connecté</div>
-                    <p>En vous connectant vous pourrez accéder à plus de fonctionnalités. <router-link to="/profil">Se connecter</router-link></p>
+                    <p>En vous connectant vous pourrez accéder à plus de fonctionnalités. <router-link to="/connexion">Se connecter</router-link></p>
                 </div>
             </div>
             <router-view class="main-content"/>
@@ -23,36 +23,12 @@
 </template>
 
 <script>
+// window.USER = "invite"
 window.$ = window.jQuery = require('jquery')
 window._ = require('underscore')
 require('semantic-ui-css/semantic.css')
 require('semantic-ui-css/semantic.js')
 require('@/js/api.js')
-
-// window.Amplitude = require('amplitudejs/dist/amplitude.js')
-// // import 'amplitudejs/dist/amplitude.js';
-//
-// console.log('Amplitude',Amplitude);
-//
-// Amplitude.init({
-//     "songs": [
-//         {
-//             "name": "Risin' High (feat Raashan Ahmad)",
-//             "artist": "Ancient Astronauts",
-//             "album": "We Are to Answer",
-//             "url": "https://521dimensions.com/song/Ancient Astronauts - Risin' High (feat Raashan Ahmad).mp3",
-//             "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg"
-//         },
-//         {
-//             "name": "Risin' High (feat Raashan Ahmad)",
-//             "artist": "Ancient Astronauts",
-//             "album": "We Are to Answer",
-//             "url": "https://521dimensions.com/song/Ancient Astronauts - Risin' High (feat Raashan Ahmad).mp3",
-//             "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg"
-//         }
-//     ],
-//     "autoplay": true
-// });
 
 import LecteurAudio from '@/components/LecteurAudio'
 import Menu from '@/components/Menu'
@@ -62,7 +38,13 @@ export default {
         Menu,
         LecteurAudio
     },
-    name: 'App'
+    name: 'App',
+    methods: {
+        verifUser: () => {
+            console.log($cookies.get('user'))
+            return $cookies.get('user').localeCompare('invite') == 0;
+        }
+    }
 }
 </script>
 

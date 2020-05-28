@@ -1,6 +1,8 @@
 <template>
     <div>
         <h1 class="ui header">Recherche</h1>
+        
+        <!-- <span>{{chargement}}</span> -->
         <div class="ui segment raised">
             <div class="ui fluid multiple search selection dropdown">
                 <input name="tags" type="hidden" value="">
@@ -10,12 +12,16 @@
             </div>
             </select>
         </div>
-        <!-- <Carte :source="'https://1.bp.blogspot.com/-ymEujbrEdWg/T6QavBSluLI/AAAAAAAAIUI/1WB0MJjRVsw/s1600/CarreRouge-Image-INFOSuroit_com_.jpg'" :titre="'test'" :artiste="'test'"/>
-        {{ test }}
-        {{ musiques }} -->
-        <div class="testGen">
+        <span id="loader" v-if="chargement == 1">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto; display:block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <circle cx="50" cy="50" fill="none" stroke="#e15b64" stroke-width="8" r="33" stroke-dasharray="155.50883635269477 53.83627878423159">
+                    <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1.25s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+                </circle>
+            </svg>
+        </span>
+        <div class="testGen" v-if="chargement == 2">
             <Carte
-                v-for="musique in musiques"
+                v-for="(musique, x) in musiques" :key="x"
                 :source="musique.pochette"
                 :titre="musique.titre"
                 :artiste="musique.artiste"
@@ -23,11 +29,36 @@
                 :url="musique.url"
             />
         </div>
+        <span v-if="chargement == 3">Pas de musiques disponibles pour cette recherche ...</span>
+
     </div>
 </template>
 
 <script>
     import Carte from '@/components/Carte'
+
+    function getArtistes(musique) {
+        let strArtiste = '';
+        for(const artiste of musique.artistes) {
+            const nomArtiste = artiste.artiste.nom ? artiste.artiste.nom : '';
+            const prenomArtiste = artiste.artiste.prenom ? artiste.artiste.prenom : '';
+            let strArtisteTmp = nomArtiste + ' ' + prenomArtiste;
+            strArtiste += strArtisteTmp.trim()+', ';
+        }
+        return strArtiste.trim().slice(0, -1);
+    }
+
+    function getAlbums(musiqueCurrent) {
+        let strAlbum = '';
+        // for(const album of musiqueCurrent.albums) {
+        //     const nomArtiste = artiste.artiste.nom ? artiste.artiste.nom : '';
+        //     const prenomArtiste = artiste.artiste.prenom ? artiste.artiste.prenom : '';
+        //     let strArtisteTmp = nomArtiste + ' ' + prenomArtiste;
+        //     strArtiste += strArtisteTmp.trim()+', ';
+        // }
+        // return strArtiste.trim().slice(0, -1);
+        return '';
+    }
 
     export default {
         components: {
@@ -37,41 +68,39 @@
             return {
                 musiques: [],
                 musiquesList: {
-                    'par': {
-                        'genre': []
-                    },
-                    'infos': {}
-                }
+                    'par_genre': {}
+                },
+                chargement: 0
             }
         },
         methods: {
             getMusiques () {
-                const musiquesListId = _.union(this.musiquesList.par.genre);
-                this.musiques = [];
-                for (var idMusique of musiquesListId) {
-                    this.$http.get(`${API}musiques/${idMusique}`).then((res) => {
-                        let musiqueCurrent = res.data;
-                        let strArtistes = '';
-                        for(const artiste of musiqueCurrent.artistes) {
-                            const nomArtiste = artiste.artiste.nom ? artiste.artiste.nom : '';
-                            const prenomArtiste = artiste.artiste.prenom ? artiste.artiste.prenom : '';
-                            strArtiste = nomArtiste + ' ' + prenomArtiste;
-                            strArtiste = strArtiste.trim();
-                            strArtiste += ', ';
-                        }
-                        let strArtiste = strArtiste.slice(0, -2);
-                        console.log(musiqueCurrent.url)
-                        this.musiques.push({
-                            'pochette': musiqueCurrent.pochette.img_pochette,
-                            'titre': musiqueCurrent.titre,
-                            'artiste': strArtiste,
-                            'album': musiqueCurrent.albums[0].album.nom_album,
-                            'url': musiqueCurrent.url
-                        });
-                    }, (res) => {
-                        console.log('erreur', res)
-                    });
+                //Si 0 musique pour les genres sélectionnés
+
+                if(_.isEmpty(JSON.parse(JSON.stringify(this.musiquesList.par_genre)))) {
+                // Si 0 musique pour les genres sélectionnés
+                    this.chargement = 3 //message d'info
+                } else {
+                    const musiquesList = _.values(this.musiquesList.par_genre);
+                    console.log(musiquesList)
+                    this.musiques = [];
+                    for (const musique of musiquesList) {
+                        this.musiques.push(musique)
+                    }
+                    console.log(this.musiques.length)
+                    //if(this.musiques.length != 0) {
+                        this.chargement = 2 //afficher cartes
+                    //    console.log('chargement', chargement)
+                    //}
                 }
+
+                // if()
+                //     || this.musiques.length == 0) {
+                //     this.chargement = 0
+                // } else {
+                //
+                // }
+
             }
         },
         mounted() {
@@ -80,7 +109,7 @@
                     obj => {
                         return {
                             "name" : obj.genre,
-                            "value": obj.id_genre,
+                            "value": obj.genre, //obj.id_genre,
                             "text": obj.genre
                         }
                     }
@@ -92,18 +121,28 @@
                     // useLabels: false,
                     values: genres,
                     placeholder: 'Genres',
-                    onChange: (idListGenres) => {
-                        this.musiquesList.par.genre = [];
-                        if(idListGenres === "") {
-                            this.getMusiques();
+                    onChange: (listGenres) => {
+                        this.chargement = 1 //loader
+                        // var x = setTimeout(() => { }, 5000);
+                        // clearTimeout(x);
+                        this.musiquesList.par_genre = {}
+                        if(listGenres.length == 0) { //si 0 genre sélectionné
+                            this.chargement = 0 // on affiche rien
+                            //this.getMusiques()
                         } else {
-                            idListGenres = idListGenres.split(',')
-                            for (const [index, idGenre] of idListGenres.entries()) {
-                                this.$http.get(`${API}genres/${idGenre}`).then((res) => {
-                                    for (var musique of res.data.musiques) {
-                                        this.musiquesList.par.genre.push(musique.id_musique);
+                            listGenres = listGenres.split(',')
+                            for (const [index, genre] of listGenres.entries()) {
+                                this.$http.get(`${API}Musiques/recherche/genre/${genre}`).then((res) => {
+                                    for (var musique of res.data) {
+                                        this.musiquesList.par_genre[musique.id_musique] = {
+                                            pochette: musique.pochette.img_pochette,
+                                            titre: musique.titre,
+                                            artiste: getArtistes(musique),
+                                            album: getAlbums(musique),
+                                            url: musique.url
+                                        };
                                     }
-                                    if(index == idListGenres.length-1) {
+                                    if(index == listGenres.length-1) {
                                         this.getMusiques();
                                     }
                                 }, (res) => {
@@ -124,6 +163,7 @@
 <style>
     .ui.segment {
         width: 80%;
+        z-index: 5;
     }
 
     .testGen {
@@ -131,5 +171,9 @@
     	width: 100%;
     	flex-wrap: wrap;
     	justify-content: space-around;
+    }
+
+    #loader {
+        margin-top:110px
     }
 </style>
