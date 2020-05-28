@@ -112,4 +112,13 @@
     padding: 10px 2px;
     width: 80%;
 }
+
+.content * {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    height: 100%;
+}
 </style>

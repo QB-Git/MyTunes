@@ -17,7 +17,7 @@ namespace MyTunes.Controllers
 
         // GET: api/Users?recherche="string"
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUSER([FromHeader] string recherche)
+        public async Task<ActionResult<IEnumerable<User>>> GetUSER()
         {
             var users = await _context.USER
                 .Include(a => a.notes)
@@ -26,10 +26,23 @@ namespace MyTunes.Controllers
                     //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
                 .ToListAsync();
 
-            if (!string.IsNullOrEmpty(recherche))
-            {
-                return Ok(users.Where(s => s.pseudo.ToLower().Contains(recherche.ToLower())));
-            }
+            
+                //return Ok(users.Where(s => s.pseudo.ToLower().Contains(recherche.ToLower())));
+
+
+            return Ok(users);
+        }
+        
+        [HttpGet("recherche/{recherche}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUSERRecherche(string recherche)
+        {
+            var users = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(s => s.pseudo.ToLower().Contains(recherche.ToLower()))
+                .ToListAsync();
 
             return Ok(users);
         }
@@ -129,7 +142,7 @@ namespace MyTunes.Controllers
         [HttpPost("playlist/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylist(int id, 
             [FromBody] IEnumerable<int> musiques, 
-            [FromHeader] string nom = "Favoris", [FromHeader] System.Boolean publique = false)
+            string nom = "Favoris", System.Boolean publique = false)
         {
             if (!UserExists(id))
             {
@@ -170,11 +183,50 @@ namespace MyTunes.Controllers
             return Ok(result);
         }
 
+        // POST : api/Users/playlists/1?nom="nom"&publique=bool
+        // Ajoute une musique à la playlist nommé si elle n'existe pas la créer, sinon met en favoris par défaut
+        [HttpPost("playlist/unique/{id}")]
+        public async Task<ActionResult<User>> PostUserPlaylistUn(int id,
+            int id_musique,
+            string nom = "Favoris", System.Boolean publique = false)
+        {
+            if (!UserExists(id))
+            {
+                return NotFound(new Erreur("User numéro: " + id + " inexistant"));
+            }
+            if (!MusiqueExists(id_musique))
+            {
+                return NotFound(new Erreur("Musique numéro: " + id_musique + " inexistante"));
+            }
+                if (!PlaylistExists(id, nom, id_musique))
+                {
+                    Playlist playlist = new Playlist()
+                    {
+                        id_user = id,
+                        id_musique = id_musique,
+                        nom = nom,
+                        publique = publique
+                    };
+                    _context.PLAYLIST.Add(playlist);
+                }
+            await _context.SaveChangesAsync();
+
+            var result = await _context.USER
+                .Include(a => a.notes)
+                //.ThenInclude(b => b.Musique) Pas besoin, déjà là pour playlist
+                .Include(c => c.playlists)
+                //.ThenInclude(d => d.Musique) lourd à la lecture, enelevé pour l'instant
+                .Where(e => e.id_user == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(result);
+        }
+
         // POST : api/Users/notes/1?note=note&musique="id_musique"
         // Ajoute une note à la musique voulu
         [HttpPost("notes/{id}")]
         public async Task<ActionResult<User>> PostUserNotes(int id, 
-            [FromHeader] int note, [FromHeader] int musique)
+            int note, int musique)
         {
             if (!UserExists(id))
             {
@@ -213,7 +265,7 @@ namespace MyTunes.Controllers
         // PUT: api/Users/playlist/5?musique=id&nom="nom_playlist"
         [HttpPut("playlist/{id}")]
         public async Task<ActionResult<User>> PutUserPlaylist(int id,
-            [FromHeader] int musique, [FromHeader] string nom_playlist)
+            int musique, string nom_playlist)
         {
             if (!UserExists(id))
             {
@@ -247,7 +299,7 @@ namespace MyTunes.Controllers
 
         // DELETE: api/Users/playlist/5?nom="nom_playlist"
         [HttpDelete("playlist/{id}")]
-        public async Task<ActionResult<User>> DeleteUserPlaylist(int id, [FromHeader] string nom_playlist)
+        public async Task<ActionResult<User>> DeleteUserPlaylist(int id, string nom_playlist)
         {
             if (!UserExists(id))
             {
@@ -325,7 +377,7 @@ namespace MyTunes.Controllers
         // Copie une playlist d'un autre utilisateur id_user 
         [HttpPost("playlist/copy/{id}")]
         public async Task<ActionResult<User>> PostUserPlaylistCopie(int id,
-            [FromHeader] string nom, [FromHeader] int user)
+            string nom, int user)
         {
             if (!UserExists(id))
             {
@@ -386,7 +438,7 @@ namespace MyTunes.Controllers
         // POST : api/Users/playlist/import/1?album=id_album
         // Importe l'album en playlist nommé "playlist"+nom_album
         [HttpPost("playlist/import/{id}")]
-        public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, [FromHeader] int album)
+        public async Task<ActionResult<User>> PostUserPlaylistImportAlbum(int id, int album)
         {
             if (!UserExists(id))
             {

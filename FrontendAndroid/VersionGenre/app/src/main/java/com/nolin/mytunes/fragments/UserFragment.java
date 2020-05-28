@@ -25,7 +25,6 @@ import com.nolin.mytunes.models.UserModel;
 import com.nolin.mytunes.ui.MusiqueAdapter;
 import com.nolin.mytunes.utils.ConnectionMusiqueId;
 import com.nolin.mytunes.utils.ConnectionUser;
-import com.nolin.mytunes.utils.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,21 +119,7 @@ public class UserFragment extends Fragment {
                 i = users.size();
                 ma.updateUser(good_user);
                 getMusiquesFromPlaylist();
-            }
-        }
-    }
 
-            private void getMusiquesFromPlaylist(){
-                ArrayList<String> pourAffichage = new ArrayList<>();
-                for(int j=0; j<good_user.getPlaylist().size(); j++){
-                    pourAffichage.add("https://mytunes20200429155409.azurewebsites.net/api/Musiques/"+good_user.getPlaylist().get(j).getId_musique());
-                }
-        /*
-        WARNING, c'est pas ouf mais j'ai pas mieux hein
-        */
-                String[] urls = new String[pourAffichage.size()];
-                urls = pourAffichage.toArray(urls);
-                new ConnectionMusiqueId(UserFragment.this).execute(urls);
             }
 
             public void updateAdapter(ArrayList<AudioEtImages> object){
@@ -166,3 +151,4 @@ public class UserFragment extends Fragment {
                 layoutDeconnexion.setVisibility(View.VISIBLE);
             }
         }
+

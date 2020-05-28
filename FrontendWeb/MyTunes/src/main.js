@@ -13,12 +13,24 @@ import { OverlayScrollbarsPlugin } from 'overlayscrollbars-vue';
 import VueResource from 'vue-resource'
 
 
+import VueCookies from 'vue-cookies'
+
+
 Vue.config.productionTip = false;
 
 // Vue.use(SuiVue);
 // Vue.use(AsyncComputed);
 Vue.use(OverlayScrollbarsPlugin);
 Vue.use(VueResource);
+
+Vue.use(VueCookies)
+
+Vue.$cookies.config('7d')
+
+// set global cookie
+if(!Vue.$cookies.isKey('user')) {
+    Vue.$cookies.set('user','invite');
+}
 
 /* eslint-disable no-new */
 new Vue({
