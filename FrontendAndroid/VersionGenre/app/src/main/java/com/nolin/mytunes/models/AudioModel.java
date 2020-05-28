@@ -2,6 +2,9 @@ package com.nolin.mytunes.models;
 
 import android.util.Log;
 
+import com.nolin.mytunes.json.JSONAlbum;
+import com.nolin.mytunes.json.JSONArtiste;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;

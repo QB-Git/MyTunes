@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import com.nolin.mytunes.models.JSONArtiste;
+import com.nolin.mytunes.json.JSONArtiste;
 import com.nolin.mytunes.models.AudioModel;
-import com.nolin.mytunes.R;
+
 import java.util.List;
 
 public class MusiqueAdapter extends ArrayAdapter {

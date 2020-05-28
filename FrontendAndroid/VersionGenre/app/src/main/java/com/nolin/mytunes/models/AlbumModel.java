@@ -1,5 +1,7 @@
 package com.nolin.mytunes.models;
 
+import com.nolin.mytunes.json.JSONAudio;
+
 import java.util.ArrayList;
 
 public class AlbumModel {

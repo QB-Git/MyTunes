@@ -48,19 +48,4 @@ public class UserModel {
         this.playlists = playlist;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserModel userModel = (UserModel) o;
-        return id_user == userModel.id_user &&
-                Objects.equals(pseudo, userModel.pseudo) &&
-                Objects.equals(password, userModel.password) &&
-                Objects.equals(playlists, userModel.playlists);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_user, pseudo, password, playlists);
-    }
 }

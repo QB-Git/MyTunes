@@ -22,9 +22,8 @@ import com.nolin.mytunes.R;
 import com.nolin.mytunes.models.AudioEtImages;
 import com.nolin.mytunes.models.AudioModel;
 import com.nolin.mytunes.utils.ConnectionRecherche;
-
+import com.nolin.mytunes.utils.LoadingDialog;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchFragment extends Fragment {
 
@@ -35,8 +34,9 @@ public class SearchFragment extends Fragment {
     private ImageButton buttonRecherche;
     private View myView;
     private MusiqueAdapter adapter;
-    private MediaPlayer mediaPlayer;
-    private List<AudioModel> musiques;
+    private ArrayList<AudioModel> musiques;
+    private AudioPlayer audioPlayer;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,28 +49,45 @@ public class SearchFragment extends Fragment {
         buttonRecherche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String recherche =tiRecherche.getText().toString();
+                String recherche = tiRecherche.getText().toString();
+                Bundle bundle = getArguments();
+                if( bundle != null )
+                {
+                    LoadingDialog loadingDialog = (LoadingDialog)bundle.getSerializable("mainActivity_loadingDialog");
+                    if( loadingDialog != null )
+                    {
+                        loadingDialog.startLoadingDialog();
+                    }
+                }
+
                 if (recherche.isEmpty()){
                     new ConnectionRecherche(SearchFragment.this).execute(url_all_musiques);
                 } else {
 
                     new ConnectionRecherche(SearchFragment.this).execute(url_titre_musiques+recherche);
                 }
-            }
-		});
+            }});
         lvMusiques.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("MediaPlyer", "onItemClickListener");
                 AudioPlayer.start(getContext(), Uri.parse(musiques.get(i).getURL()));
+                //AudioPlayer.getInstance(getContext(), Uri.parse(musiques.get(i).getURL()));
+                Bundle bundle = getArguments();
+
+                if( bundle != null )
+                {
+                    bundle.putSerializable("morceauCourant", musiques.get(i));
+                }
+
             }
         });
         return myView;
     }
 
     public void updateAdapter(ArrayList<AudioEtImages> object){
-        List<AudioModel> audios = new ArrayList<>();
-        List<Bitmap> images = new ArrayList<>();
+        ArrayList<AudioModel> audios = new ArrayList<>();
+        ArrayList<Bitmap> images = new ArrayList<>();
+
         if (object != null){
             for(int i=0; i<object.size(); i++){
                 audios.add(object.get(i).getMusique());
@@ -79,8 +96,21 @@ public class SearchFragment extends Fragment {
         }
         this.musiques = audios;
         adapter = new MusiqueAdapter(getContext(), R.layout.row, audios,images);
-
         lvMusiques.setAdapter(adapter);
+
+        Bundle bundle = getArguments();
+        if( bundle != null )
+        {
+            LoadingDialog loadingDialog = (LoadingDialog)bundle.getSerializable("mainActivity_loadingDialog");
+
+            if( loadingDialog != null )
+            {
+                loadingDialog.dismissDialog();
+            }
+
+        }
+
+
         adapter.notifyDataSetChanged();
     }
 }

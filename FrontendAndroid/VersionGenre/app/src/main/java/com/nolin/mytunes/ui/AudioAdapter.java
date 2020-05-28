@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.nolin.mytunes.R;
+import com.nolin.mytunes.json.JSONArtiste;
 import com.nolin.mytunes.models.AudioModel;
-import com.nolin.mytunes.models.JSONArtiste;
 
 import java.util.List;
 

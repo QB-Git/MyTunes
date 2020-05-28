@@ -20,6 +20,7 @@ import com.nolin.mytunes.fragments.LibraryFragment;
 import com.nolin.mytunes.fragments.SearchFragment;
 import com.nolin.mytunes.fragments.UserFragment;
 import com.nolin.mytunes.models.AudioModel;
+import com.nolin.mytunes.models.UserModel;
 import com.nolin.mytunes.utils.LoadingDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
     public BottomNavigationView bottomNav;
     private Bundle bundle;
+    private UserModel user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        user = null;
         bundle = new Bundle();
         bottomNav = findViewById(R.id.nav_view);
         final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
@@ -49,17 +52,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_library:
                         loadingDialog.startLoadingDialog();
-                        selectedFragment = new LibraryFragment(/*mMediaPlayer*/);
+                        selectedFragment = new LibraryFragment();
                         bundle.putSerializable("mainActivity_loadingDialog", loadingDialog);
                         selectedFragment.setArguments( bundle );
                         Log.i( "TEST PASSAGE BUNDLE", "mainActivity.onCreate() : Set du bundle lib");
 
                         break;
                     case R.id.nav_search:
-                        selectedFragment = new SearchFragment(mMediaPlayer);
+                        selectedFragment = new SearchFragment();
+                        bundle.putSerializable("mainActivity_loadingDialog", loadingDialog);
+                        selectedFragment.setArguments( bundle );
                         break;
                     case R.id.nav_user:
-                        selectedFragment = new UserFragment();
+                        selectedFragment = new UserFragment(MainActivity.this, user);
+                        selectedFragment.setArguments( bundle );
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
@@ -67,13 +73,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*
-    @Override
-    public void sendAudio(AudioModel audioModel) {
-        HomeFragment mf = (HomeFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_home);
-        assert mf != null;
-        mf.displayReceivedData(audioModel);
+    public void updateUser(UserModel user){
+        this.user = user;
     }
-    */
+
+    public void resetUser(){
+        this.user = null;
+    }
 }

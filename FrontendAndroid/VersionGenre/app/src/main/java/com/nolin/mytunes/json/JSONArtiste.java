@@ -1,5 +1,7 @@
-package com.nolin.mytunes.models;
+package com.nolin.mytunes.json;
 
+
+import com.nolin.mytunes.models.ArtisteModel;
 
 // Un AudioModel a une liste d'Artistes
 public class JSONArtiste {

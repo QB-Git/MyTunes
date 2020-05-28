@@ -1,4 +1,6 @@
-package com.nolin.mytunes.models;
+package com.nolin.mytunes.json;
+
+import com.nolin.mytunes.models.AlbumModel;
 
 public class JSONAlbum {
     private int id_album;
